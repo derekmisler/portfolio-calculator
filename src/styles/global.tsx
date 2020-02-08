@@ -1,17 +1,10 @@
 import { createGlobalStyle } from 'styled-components'
 import { TYPOGRAPHY } from './typography'
 
-const {
-  baseFontWeight,
-  baseLineHeight,
-  baseFontFamily,
-  htmlFontSize
-} = TYPOGRAPHY
-
 interface GlobalStyleProps {
   theme: {
     background: string,
-    text: string
+    body: string
   }
 }
 
@@ -49,13 +42,10 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   footer, header, menu, nav, section {
     display: block;
   }
-  html { font-size: ${htmlFontSize}; }
+  html { font-size: 16px; }
   body {
     background-color: ${({ theme }) => theme.background};
-    font-family: ${baseFontFamily};
-    font-weight: ${baseFontWeight};
-    line-height: ${baseLineHeight};
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.body};
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;

@@ -7,8 +7,7 @@
 
 import React, { SFC } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import { GlobalStyle } from 'styles'
-import { useTheme } from 'utils/useTheme'
+import { GlobalStyle, theme } from 'styles'
 import Header from 'molecules/Header'
 
 interface LayoutTypes {
@@ -16,7 +15,6 @@ interface LayoutTypes {
 }
 
 const Layout: SFC<LayoutTypes> = ({ children }) => {
-  const [theme] = useTheme()
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
