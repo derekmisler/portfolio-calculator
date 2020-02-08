@@ -1,5 +1,5 @@
-import { Link } from 'gatsby'
 import React, { SFC } from 'react'
+import { Link } from 'gatsby'
 
 interface HeaderTypes {
   siteTitle: string
