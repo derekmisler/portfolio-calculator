@@ -17,15 +17,25 @@ export interface TextProps extends HTMLProps<HTMLParagraphElement> {
 
 export const TYPOGRAPHY = new Typography({
   includeNormalize: true,
-  bodyFontFamily: ['neue-haas-grotesk-text', 'Helvetica Neue', 'Helvetica', 'sans-serif'],
-  headerFontFamily: ['neue-haas-grotesk-display', 'Helvetica Neue', 'Helvetica', 'sans-serif'],
+  googleFonts: [
+    {
+      name: "Merriweather",
+      styles: ["400"],
+    },
+    {
+      name: "Fira Mono",
+      styles: ["400", "700"],
+    },
+  ],
+  headerFontFamily: ["Merriweather", "serif"],
+  bodyFontFamily: ["Fira Mono", "monospace"],
   baseFontSize: '2rem',
   scaleRatio: 2,
   baseLineHeight: 1.5,
   headerLineHeight: 1,
   bodyWeight: 500,
-  headerWeight: 500,
-  boldWeight: 500,
+  headerWeight: 400,
+  boldWeight: 700,
   bodyColor: theme.body,
   headerColor: theme.header
 })
