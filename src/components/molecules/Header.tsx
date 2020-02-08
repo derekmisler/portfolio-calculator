@@ -1,15 +1,14 @@
+import { Heading, Link } from 'atoms/Typography'
 import React, { SFC } from 'react'
-import { Link } from 'gatsby'
 
 interface HeaderTypes {
   siteTitle: string
 }
-const Header: SFC<HeaderTypes> = ({ siteTitle }) => (
+export const Header: SFC<HeaderTypes> = ({ siteTitle }) => (
   <header>
-    <h1>
+    <Heading level={1}>
       <Link to='/'>{siteTitle}</Link>
-    </h1>
+    </Heading>
   </header>
 )
 
-export default Header

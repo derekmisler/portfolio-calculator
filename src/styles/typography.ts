@@ -1,18 +1,6 @@
 import { HTMLProps } from 'react'
 import Typography from 'typography'
-import { theme } from 'styles'
-
-export type FontStyle = 'italic' | 'normal'
-export type BaseFontWeight = '400' | '500' | '700'
-export type HeadingFontWeight =
-  | '100'
-  | '200'
-  | '300'
-  | '400'
-  | '500'
-  | '600'
-  | '700'
-  | '900'
+import { theme } from './theme'
 
 export interface TextProps extends HTMLProps<HTMLParagraphElement> {
   textAlign?: string

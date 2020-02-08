@@ -1,18 +1,9 @@
 import styled from 'styled-components'
-import { memo } from 'react'
-import { LAYOUT } from 'styles'
+import { layout, LayoutProps, space, SpaceProps } from 'styled-system'
 
-const { spacing } = LAYOUT
+interface StyledContainerProps extends LayoutProps, SpaceProps {}
 
-const StyledContainer = styled.main`
-  padding: 0;
-  margin: ${spacing.large};
-  padding-bottom: calc(${spacing.large} * 2);
-  min-height: 100vh;
-  max-width: 100%;
-  position: relative;
+export const Container = styled.main<StyledContainerProps>`
+  ${space}
+  ${layout}
 `
-
-export const Container = memo(({ children }) => (
-  <StyledContainer>{children}</StyledContainer>
-))
