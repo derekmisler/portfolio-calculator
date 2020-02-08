@@ -3,15 +3,15 @@ import queryString from 'query-string'
 
 export const NOAA_ENDPOINTS = {
   points: 'points',
-  alerts: 'alerts/active/zone',
+  alerts: 'alerts/active/zone'
 }
 export const GOOGLE_ENDPOINTS = {
   places: 'place/autocomplete/json',
-  geocode: 'geocode/json',
+  geocode: 'geocode/json'
 }
 
 const KEYS = {
-  google: `${process.env.PLACES_API_KEY}`,
+  google: `${process.env.PLACES_API_KEY}`
 }
 
 interface RequestDataTypes {
@@ -31,8 +31,8 @@ const createRequestObj = (requestData: RequestDataTypes) => {
     url,
     method: method || 'get',
     headers: new Headers({
-      'Content-Type': isGoogle ? 'application/json' : 'application/ld+json',
-    }),
+      'Content-Type': isGoogle ? 'application/json' : 'application/ld+json'
+    })
   }
   if (method !== 'get') requestObject.data = JSON.stringify(body)
   else delete requestObject.data

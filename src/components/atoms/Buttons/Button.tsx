@@ -23,7 +23,7 @@ const buttonStyle = css`
 `
 
 export const Button = styled.button.attrs<StyledButtonProps>(({ href }) => ({
-  as: href ? 'a' : 'button',
+  as: href ? 'a' : 'button'
 }))<StyledButtonProps>`
   ${BUTTON_TEXT_STYLES}
   ${({ tab }) => (tab ? tabStyle : buttonStyle)}

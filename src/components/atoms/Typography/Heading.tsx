@@ -5,7 +5,7 @@ const {
   headingFontFamily,
   headingFontSizes,
   headingLineHeights,
-  headingFontWeights,
+  headingFontWeights
 } = TYPOGRAPHY
 
 const { mediaQueries } = LAYOUT
@@ -18,7 +18,7 @@ export interface StyledHeadingProps extends StyledComponentProps {
 export const Heading = styled.div.attrs<StyledHeadingProps>(({ level }) => ({
   role: 'heading',
   'aria-level': level,
-  as: `h${level}`,
+  as: `h${level}`
 }))<StyledHeadingProps>`
   font-family: ${headingFontFamily};
   font-style: italic;

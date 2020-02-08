@@ -4,7 +4,7 @@ import {
   StyledComponentProps,
   SmMdLgSizes,
   LAYOUT,
-  FlexAlignment,
+  FlexAlignment
 } from 'styles'
 import { generateResponsiveRow } from 'utils/generateResponsiveGrid'
 

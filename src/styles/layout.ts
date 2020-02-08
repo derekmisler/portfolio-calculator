@@ -30,14 +30,14 @@ export type FlexAlignment =
 
 export const breakpoints = {
   mobile: '64em',
-  desktop: '64.063em',
+  desktop: '64.063em'
 }
 
 export const transitionDefaults = {
   durationFast: '230ms',
   duration: '500ms',
   property: 'all',
-  timing: 'cubic-bezier(.68, -.55, .265, 1.55)',
+  timing: 'cubic-bezier(.68, -.55, .265, 1.55)'
 }
 
 export const LAYOUT = {
@@ -51,21 +51,21 @@ export const LAYOUT = {
   mediaQueries: {
     mobile: `screen and (max-width: ${breakpoints.mobile})`,
     desktop: `screen and (min-width: ${breakpoints.desktop})`,
-    fullHeight: `screen and (max-height: 100vh)`,
+    fullHeight: `screen and (max-height: 100vh)`
   },
   dropShadow: {
     small: '.1rem',
     medium: '.2rem',
-    large: '.4rem',
+    large: '.4rem'
   },
   spacing: {
     small: '.5rem',
     medium: '1.25rem',
-    large: '2.75rem',
+    large: '2.75rem'
   },
   widths: {
     small: '50%',
     medium: '66%',
-    large: '90%',
-  },
+    large: '90%'
+  }
 }

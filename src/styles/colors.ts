@@ -9,13 +9,13 @@ export const colors = {
   black: '#2E3440',
   blackDarker: '#000000',
   transparentBlack: hexToRgba('#000000', 0.6),
-  white: '#f4f1ec' ,
+  white: '#f4f1ec',
   whiteDarker: '#E5E9F0',
   transparentWhite: hexToRgba('#ffffff', 0.6),
   red: '#BF616A',
   redDarker: '#9b4b56',
   blue: '#81A1C1',
-  blueDarker: '#5E81AC',
+  blueDarker: '#5E81AC'
 }
 
 export const theme = {
@@ -29,5 +29,5 @@ export const theme = {
   disabled: colors.gray,
   background: colors.black,
   transparentBackground: colors.transparentBlack,
-  shadow: colors.blackDarker,
+  shadow: colors.blackDarker
 }

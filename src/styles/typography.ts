@@ -28,12 +28,12 @@ export const TYPOGRAPHY = new Typography({
   googleFonts: [
     {
       name: 'Merriweather',
-      styles: ['400'],
+      styles: ['400']
     },
     {
       name: 'Fira Mono',
-      styles: ['400', '700&display=swap'],
-    },
+      styles: ['400', '700&display=swap']
+    }
   ],
   headerFontFamily: ['Merriweather', 'serif'],
   bodyFontFamily: ['Fira Mono', 'monospace'],
@@ -45,7 +45,7 @@ export const TYPOGRAPHY = new Typography({
   headerWeight: 400,
   boldWeight: 700,
   bodyColor: theme.body,
-  headerColor: theme.header,
+  headerColor: theme.header
 })
 
 export default TYPOGRAPHY

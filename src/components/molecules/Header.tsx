@@ -7,7 +7,7 @@ interface HeaderTypes {
 const Header: SFC<HeaderTypes> = ({ siteTitle }) => (
   <header>
     <h1>
-      <Link to="/">{siteTitle}</Link>
+      <Link to='/'>{siteTitle}</Link>
     </h1>
   </header>
 )

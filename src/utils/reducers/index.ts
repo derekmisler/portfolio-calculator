@@ -6,5 +6,5 @@ export interface RootState {
 }
 
 export const rootReducer = combineReducers({
-  user: userReducer,
+  user: userReducer
 })

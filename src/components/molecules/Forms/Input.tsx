@@ -26,7 +26,7 @@ export const Input: FC<InputProps> = memo(
     return (
       <>
         {label && (
-          <Text as="label" htmlFor={id}>
+          <Text as='label' htmlFor={id}>
             <Span small>{label}</Span>
           </Text>
         )}
@@ -34,7 +34,7 @@ export const Input: FC<InputProps> = memo(
           placeholder={placeholder}
           ref={inputRef}
           id={id}
-          type="text"
+          type='text'
           defaultValue={defaultValue}
           onChange={handleChange}
         />

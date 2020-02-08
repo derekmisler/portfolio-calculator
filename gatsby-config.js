@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { resolve } = require('path')
 
 const generateBasePath = (...params) => {
@@ -6,14 +7,14 @@ const generateBasePath = (...params) => {
 }
 
 const paths = {
-  src: generateBasePath.bind(null, 'src'),
+  src: generateBasePath.bind(null, 'src')
 }
 
 module.exports = {
   siteMetadata: {
     title: `Portfolio Calculator`,
     description: `Simple calculator for asset allocation.`,
-    author: `Derek Misler`,
+    author: `Derek Misler`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -22,8 +23,8 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/images`,
-      },
+        path: `${__dirname}/src/images`
+      }
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -39,8 +40,8 @@ module.exports = {
         styles: paths.src('styles'),
         pages: paths.src('pages'),
         images: paths.src('images'),
-        types: paths.src('types'),
-      },
+        types: paths.src('types')
+      }
     },
     {
       resolve: `gatsby-plugin-manifest`,
@@ -56,30 +57,30 @@ module.exports = {
           {
             src: 'icon-128.png',
             sizes: '128x128',
-            type: 'image/png',
+            type: 'image/png'
           },
           {
             src: 'icon-192.png',
             sizes: '192x192',
-            type: 'image/png',
+            type: 'image/png'
           },
           {
             src: 'icon-256.png',
             sizes: '256x256',
-            type: 'image/png',
+            type: 'image/png'
           },
           {
             src: 'icon-384.png',
             sizes: '384x384',
-            type: 'image/png',
+            type: 'image/png'
           },
           {
             src: 'icon-512.png',
             sizes: '512x512',
-            type: 'image/png',
-          },
-        ],
-      },
+            type: 'image/png'
+          }
+        ]
+      }
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
@@ -87,8 +88,22 @@ module.exports = {
     {
       resolve: `gatsby-plugin-typography`,
       options: {
-        pathToConfigModule: `src/styles/typography`,
-      },
+        pathToConfigModule: `src/styles/typography`
+      }
     },
-  ],
+    {
+      resolve: 'gatsby-plugin-firebase',
+      options: {
+        features: {
+          auth: true,
+          database: true,
+          firestore: false,
+          storage: false,
+          messaging: false,
+          functions: false,
+          performance: false
+        }
+      }
+    }
+  ]
 }

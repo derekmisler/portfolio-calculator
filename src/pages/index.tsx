@@ -7,9 +7,9 @@ import SEO from 'atoms/Seo'
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home" />
+    <SEO title='Home' />
     <h1>Hi people</h1>
-    <Link to="/page-2/">Go to page 2</Link>
+    <Link to='/page-2/'>Go to page 2</Link>
   </Layout>
 )
 
