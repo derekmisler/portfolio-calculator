@@ -7,9 +7,11 @@
 
 import { Container } from 'atoms/Container'
 import { graphql, useStaticQuery } from 'gatsby'
+import { Footer } from 'molecules/Footer'
 import { Header } from 'molecules/Header'
 import React, { SFC } from 'react'
 import { GoogleFont, TypographyStyle } from 'react-typography'
+import { ThemeProvider } from 'styled-components'
 import { GlobalStyle, theme, TYPOGRAPHY } from 'styles'
 
 interface LayoutTypes {
@@ -28,14 +30,14 @@ const Layout: SFC<LayoutTypes> = ({ children }) => {
   `)
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GlobalStyle theme={theme} />
       <TypographyStyle typography={TYPOGRAPHY} />
       <GoogleFont typography={TYPOGRAPHY} />
       <Header siteTitle={data.site.siteMetadata.title} />
       <Container width={[1, 1 / 2]} m='0 auto'>{children}</Container>
-      <footer></footer>
-    </>
+      <Footer></Footer>
+    </ThemeProvider>
   )
 }
 
