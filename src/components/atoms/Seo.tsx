@@ -16,8 +16,12 @@ interface SeoTypes {
   title: string
 }
 
-
-const SEO: SFC<SeoTypes> = ({ description = '', lang = 'en', meta = [], title }) => {
+const SEO: SFC<SeoTypes> = ({
+  description = '',
+  lang = 'en',
+  meta = [],
+  title,
+}) => {
   const { site } = useStaticQuery(
     graphql`
       query {

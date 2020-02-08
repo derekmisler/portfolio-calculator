@@ -13,7 +13,8 @@
       "constants/*": ["constants/*"],
       "styles/*": ["styles/*"],
       "pages/*": ["pages/*"],
-      "images/*": ["images/*"]
+      "images/*": ["images/*"],
+      "types/*": ["types/*"]
     },
     "moduleResolution": "node",
     "allowJs": true,
@@ -23,7 +24,7 @@
     "skipLibCheck": true,
     "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "removeComments": false,
+    "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "esModuleInterop": true,

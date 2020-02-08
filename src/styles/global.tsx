@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 interface GlobalStyleProps {
   theme: {
-    background: string,
+    background: string
     body: string
   }
 }

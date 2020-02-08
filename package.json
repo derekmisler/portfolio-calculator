@@ -3,7 +3,31 @@
   "private": true,
   "description": "Simple calculator for asset allocation.",
   "version": "0.1.0",
+  "license": "MIT",
   "author": "Derek Misler <derekmisler@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/derekmisler/portfolio-calculator"
+  },
+  "bugs": {
+    "url": "https://github.com/derekmisler/portfolio-calculator/issues"
+  },
+  "keywords": [
+    "gatsby",
+    "redux",
+    "immutable"
+  ],
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "clean": "rm -rf yarn.lock && gatsby clean && yarn install",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch"
+  },
   "dependencies": {
     "gatsby": "^2.19.7",
     "gatsby-image": "^2.2.39",
@@ -43,27 +67,5 @@
     "gatsby-plugin-styled-components": "^3.1.19",
     "prettier": "^1.19.1",
     "redux-devtools-extension": "^2.13.8"
-  },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
-  "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "clean": "rm -rf yarn.lock && gatsby clean && yarn install",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
   }
 }

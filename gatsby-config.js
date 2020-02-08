@@ -39,18 +39,46 @@ module.exports = {
         styles: paths.src('styles'),
         pages: paths.src('pages'),
         images: paths.src('images'),
+        types: paths.src('types'),
       },
     },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `portfolio-calculator`,
+        name: `Portfolio Calculator`,
         short_name: `Portfolio Calculator`,
         start_url: `/`,
         background_color: `#2E3440`,
         theme_color: `#BF616A`,
-        display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        display: `standalone`,
+        icon: `static/favicon.png`,
+        icons: [
+          {
+            src: 'icon-128.png',
+            sizes: '128x128',
+            type: 'image/png',
+          },
+          {
+            src: 'icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'icon-256.png',
+            sizes: '256x256',
+            type: 'image/png',
+          },
+          {
+            src: 'icon-384.png',
+            sizes: '384x384',
+            type: 'image/png',
+          },
+          {
+            src: 'icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
@@ -61,6 +89,6 @@ module.exports = {
       options: {
         pathToConfigModule: `src/styles/typography`,
       },
-    }
+    },
   ],
 }
