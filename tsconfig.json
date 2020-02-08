@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "lib": ["dom", "es2017"],
+    "baseUrl": "./src",
+    "paths": {
+      "atoms/*": ["components/atoms/*"],
+      "molecules/*": ["components/molecules/*"],
+      "organisms/*": ["components/organisms/*"],
+      "utils/*": ["utils/*"],
+      "constants/*": ["constants/*"],
+      "styles/*": ["styles/*"],
+      "pages/*": ["pages/*"],
+      "images/*": ["images/*"]
+    },
+    "moduleResolution": "node",
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx"]
+}
