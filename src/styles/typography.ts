@@ -15,23 +15,23 @@ export const TYPOGRAPHY = new Typography({
   includeNormalize: true,
   googleFonts: [
     {
-      name: 'Merriweather',
-      styles: ['400']
+      name: 'Roboto Condensed',
+      styles: ['700']
     },
     {
-      name: 'Fira Mono',
+      name: 'Roboto Mono',
       styles: ['400', '700&display=swap']
     }
   ],
-  headerFontFamily: ['Merriweather', 'serif'],
-  bodyFontFamily: ['Fira Mono', 'monospace'],
+  headerFontFamily: ['Roboto Condensed', 'sans-serif'],
+  bodyFontFamily: ['Roboto Mono', 'monospace'],
   baseFontSize: '20px',
-  scaleRatio: 2,
+  scaleRatio: 3,
   baseLineHeight: 1.5,
   headerLineHeight: 1,
-  bodyWeight: 500,
-  headerWeight: 400,
+  bodyWeight: 400,
   boldWeight: 700,
+  headerWeight: 700,
   bodyColor: theme.body,
   headerColor: theme.header
 })
