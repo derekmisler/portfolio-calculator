@@ -1,9 +1,9 @@
-export const USER_AUTH_SUCCESS = 'USER_AUTH_SUCCESS'
-export const USER_AUTH_FAILED = 'USER_AUTH_FAILED'
+export const USER_DETAILS_SUCCESS = 'USER_DETAILS_SUCCESS'
+export const USER_DETAILS_FAILED = 'USER_DETAILS_FAILED'
 
-interface UserAuthAction {
-  type: typeof USER_AUTH_SUCCESS
+interface UserAction {
+  type: typeof USER_DETAILS_SUCCESS
   payload: any
 }
 
-export type UserActionTypes = UserAuthAction
+export type UserActionTypes = UserAction

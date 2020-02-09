@@ -15,10 +15,10 @@ import { ThemeProvider } from 'styled-components'
 import { GlobalStyle, theme, TYPOGRAPHY } from 'styles'
 
 interface LayoutTypes {
-  children: JSX.Element[]
+  children: JSX.Element | JSX.Element[]
 }
 
-const Layout: SFC<LayoutTypes> = ({ children }) => {
+export const Layout: SFC<LayoutTypes> = ({ children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -41,4 +41,3 @@ const Layout: SFC<LayoutTypes> = ({ children }) => {
   )
 }
 
-export default Layout
