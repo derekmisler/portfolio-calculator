@@ -1,9 +1,7 @@
 import styled, { css } from 'styled-components'
-import { TYPOGRAPHY, LAYOUT, BUTTON_TEXT_STYLES } from 'styles'
+import { LAYOUT } from 'styles'
 
-const { baseFontSize } = TYPOGRAPHY
-
-const { spacing, borderRadius, borderStyle, borderSize, mediaQueries } = LAYOUT
+const { borderRadius, borderStyle, borderSize } = LAYOUT
 
 interface StyledButtonProps {
   accent?: boolean
@@ -25,7 +23,6 @@ const buttonStyle = css`
 export const Button = styled.button.attrs<StyledButtonProps>(({ href }) => ({
   as: href ? 'a' : 'button'
 }))<StyledButtonProps>`
-  ${BUTTON_TEXT_STYLES}
   ${({ tab }) => (tab ? tabStyle : buttonStyle)}
   background-color: transparent;
   text-decoration: none;

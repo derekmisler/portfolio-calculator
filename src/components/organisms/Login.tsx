@@ -1,59 +1,48 @@
-import React, { useState, FormEvent, useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, FormikHelpers } from 'formik'
+import * as Yup from 'yup'
+import { Input } from 'molecules/Forms'
 import { Button } from 'atoms/Buttons'
 import SEO from 'atoms/Seo'
 import { RootState } from 'utils/reducers'
 import { validatePhone } from 'utils/validate'
 import { formatPhone } from 'utils/format'
 
+interface FormValuesTypes {
+  phone: string,
+  code: string
+}
+
 export const Login = () => {
   const auth = useSelector(({ auth }: RootState) => auth) || {}
-  const [phoneVal, setPhoneVal] = useState('')
-  const [codeVal, setCodeVal] = useState('')
+  const initialValues: FormValuesTypes = { phone: '', code: '' }
 
-  const handleChange = (e: FormEvent<HTMLInputElement>) => {
-    const { id } = e?.currentTarget
-    if (id === 'phone') {
-      setPhoneVal(formatPhone(e?.currentTarget?.value))
-    } else {
-      setCodeVal(e?.currentTarget?.value)
-    }
-  }
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const validationSchema = Yup.object({
+    phone: Yup.string().required('Required').test('tel', 'Phone number is not valid', validatePhone),
+    code: Yup.number().required('Required')
+  })
+
+  const handleSubmit = (values: FormValuesTypes, { setSubmitting }: FormikHelpers<FormValuesTypes>) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 400)
   }
 
   return (
     <>
       <SEO title='Login' />
       <Formik
-        initialValues={{ email: '', password: '' }}
-        validate={values => {
-          const errors = {};
-          if (!values.email) {
-            errors.email = 'Required';
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = 'Invalid email address';
-          }
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, isValid }) => (
           <Form>
-            <Field type="email" name="email" />
-            <ErrorMessage name="email" component="div" />
-            <Field type="password" name="password" />
-            <ErrorMessage name="password" component="div" />
-            <Button type="submit" disabled={isSubmitting}>
+            <Input type="tel" name="phone" placeholder={formatPhone(1234567890)} label="Phone Number" />
+            <Input type="number" name="code" placeholder="123456" />
+            <Button type="submit" disabled={isSubmitting || !isValid}>
               Submit
             </Button>
           </Form>
