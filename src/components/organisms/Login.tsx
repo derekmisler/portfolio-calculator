@@ -6,21 +6,19 @@ import { Input } from 'molecules/Forms'
 import { Button } from 'atoms/Buttons'
 import SEO from 'atoms/Seo'
 import { RootState } from 'utils/reducers'
-import { validatePhone } from 'utils/validate'
-import { formatPhone } from 'utils/format'
 
 interface FormValuesTypes {
-  phone: string,
-  code: string
+  email: string,
+  password: string
 }
 
 export const Login = () => {
   const auth = useSelector(({ auth }: RootState) => auth) || {}
-  const initialValues: FormValuesTypes = { phone: '', code: '' }
+  const initialValues: FormValuesTypes = { email: '', password: '' }
 
   const validationSchema = Yup.object({
-    phone: Yup.string().required('Required').test('tel', 'Phone number is not valid', validatePhone),
-    code: Yup.number().required('Required')
+    email: Yup.string().email('Email is invalid').required('Email is required'),
+    password: Yup.string().required('Password is required')
   })
 
   const handleSubmit = (values: FormValuesTypes, { setSubmitting }: FormikHelpers<FormValuesTypes>) => {
@@ -40,8 +38,8 @@ export const Login = () => {
       >
         {({ isSubmitting, isValid }) => (
           <Form>
-            <Input type="tel" name="phone" placeholder={formatPhone(1234567890)} label="Phone Number" />
-            <Input type="number" name="code" placeholder="123456" />
+            <Input type="email" name="email" placeholder="you@domain.com" label="Email" autoFocus mb={4} />
+            <Input type="password" name="password" label="Password" mb={5}/>
             <Button type="submit" disabled={isSubmitting || !isValid}>
               Submit
             </Button>

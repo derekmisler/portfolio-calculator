@@ -1,55 +1,25 @@
-import styled, { css } from 'styled-components'
-import { LAYOUT } from 'styles'
+import React, { SFC, memo, HTMLProps } from 'react'
+import styled from 'styled-components'
+import { space, SpaceProps } from 'styled-system'
 
-const { borderRadius, borderStyle, borderSize } = LAYOUT
-
-interface StyledButtonProps {
-  accent?: boolean
-  href?: string
-  tab?: boolean
-  selected?: boolean
+interface StyledButtonProps extends SpaceProps, HTMLProps<HTMLButtonElement> {
+  type?: 'button' | 'submit' | 'reset'
 }
 
-const tabStyle = css`
-  border: none;
-  border-radius: 0;
-  border-bottom: ${({ theme }) => `${borderSize} ${borderStyle} ${theme.link}`};
-`
-const buttonStyle = css`
-  border-radius: ${borderRadius};
-  border: ${({ theme }) => `${borderSize} ${borderStyle} ${theme.link}`};
-`
-
-export const Button = styled.button.attrs<StyledButtonProps>(({ href }) => ({
-  as: href ? 'a' : 'button'
-}))<StyledButtonProps>`
-  ${({ tab }) => (tab ? tabStyle : buttonStyle)}
-  background-color: transparent;
-  text-decoration: none;
+const StyledButton = styled.button<StyledButtonProps>`
+  ${space}
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme, disabled, selected }) => {
-    if (disabled) return theme.disabled
-    if (selected) return theme.active
-    return theme.link
-  }};
-  border-color: ${({ theme, disabled, selected }) => {
-    if (disabled) return theme.disabled
-    if (selected) return theme.active
-    return theme.link
-  }};
+  display: block;
+  border: 0;
+  color: ${({ theme }) => theme.background};
+  background-color: ${({ theme, disabled }) => (disabled ? theme.disabled : theme.link)};
   &:hover,
   &:focus,
   &:active {
     outline: none;
     cursor: ${({ disabled }) => (disabled ? 'unset' : 'pointer')};
-    color: ${({ theme, disabled }) =>
-      disabled ? theme.disabled : theme.background};
-    background-color: ${({ theme, disabled }) =>
-      disabled ? 'transparent' : theme.linkHover};
-    border-color: ${({ theme, disabled }) =>
-      disabled ? theme.disabled : theme.linkHover};
+    background-color: ${({ theme, disabled }) => (disabled ? theme.disabled : theme.linkHover)};
   }
 `
+
+export const Button: SFC<StyledButtonProps> = memo(({ ref, as, ...props }) => <StyledButton p={3} {...props} />)

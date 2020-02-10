@@ -6,11 +6,8 @@ import { space, SpaceProps, layout, LayoutProps, border, BorderProps } from 'sty
 import { Text, Span, Alert } from 'atoms/Typography'
 import { phoneFormat } from 'utils/format'
 import { InputTypes } from 'constants/inputTypes'
-import { LAYOUT } from 'styles'
 
-const { borderStyle, borderSizeSmall } = LAYOUT
-
-interface InputProps {
+interface InputProps extends SpaceProps, LayoutProps, BorderProps {
   label?: string
   id?: string
   name: string
@@ -19,11 +16,9 @@ interface InputProps {
   placeholder?: string
 }
 
-interface StyledInputProps extends SpaceProps, LayoutProps, BorderProps {}
-
 const StyledInput = styled.input.attrs<{ mask?: any }>(({ mask }) => ({
   as: mask ? MaskedInput : 'input'
-}))<StyledInputProps>`
+}))<InputProps>`
   ${layout}
   ${space}
   ${border}
@@ -34,14 +29,13 @@ const StyledInput = styled.input.attrs<{ mask?: any }>(({ mask }) => ({
   border-left: 0px;
   border-right: 0px;
   border-top: 0px;
-  border-bottom-width: ${borderSizeSmall};
-  border-bottom-style: ${borderStyle};
+  box-shadow: none;
   &::placeholder {
     color: ${({ theme }) => theme.body};
   }
 `
 
-export const Input: SFC<InputProps> = memo(({ label, autoFocus, type, ...props }) => {
+export const Input: SFC<InputProps> = memo(({ label, autoFocus, type, height, size, width, ...props }) => {
   const [field, meta] = useField({ type, ...props })
   const invalid = !!(meta.touched && meta.error)
   const ref: RefObject<HTMLInputElement> = useRef(null)
@@ -63,18 +57,20 @@ export const Input: SFC<InputProps> = memo(({ label, autoFocus, type, ...props }
     <>
       {label && (
         <Text as='label' htmlFor={props.id || props.name}>
-          <Span small>{label}</Span>
+          <Span small>
+            { invalid ? <Alert>{meta.error}</Alert> : label }
+          </Span>
         </Text>
       )}
       <StyledInput
-        width={1}
-        mb={2}
-        borderBottomColor={invalid ? 'error' : 'border'}
         {...componentProps}
         {...field}
         {...props}
+        id={props.id || props.name}
+        width={1}
+        borderBottomWidth={3}
+        borderBottomColor={invalid ? 'error' : 'border'}
        />
-      {invalid ? <Alert>{meta.error}</Alert> : null}
     </>
   )
 })
