@@ -1,18 +1,18 @@
-import { RefObject, FormEvent, FC, useEffect, useRef, memo } from 'react'
-import { Text, Span } from 'components/atoms/Typography'
-import { LAYOUT } from 'styles'
+import React, { RefObject, FormEvent, FC, useEffect, useRef, memo } from 'react'
+import { Text, Span } from 'atoms/Typography'
 
 interface InputProps {
   label?: string
   id: string
   onChange: Function
   defaultValue?: string
+  value?: string
   placeholder?: string
   autoFocus?: boolean
 }
 
 export const Input: FC<InputProps> = memo(
-  ({ label, onChange, defaultValue, id, autoFocus, placeholder }) => {
+  ({ label, onChange, defaultValue, value, id, autoFocus, placeholder }) => {
     const handleChange = (e: FormEvent<HTMLInputElement>) => {
       const { currentTarget: { value = '' } = {} } = e || {}
       onChange(value)
@@ -36,6 +36,7 @@ export const Input: FC<InputProps> = memo(
           id={id}
           type='text'
           defaultValue={defaultValue}
+          value={value}
           onChange={handleChange}
         />
       </>

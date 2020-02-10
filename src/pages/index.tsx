@@ -30,7 +30,7 @@ const IndexPage = () => {
       <TypographyStyle typography={TYPOGRAPHY} />
       <GoogleFont typography={TYPOGRAPHY} />
       <Header siteTitle={data.site.siteMetadata.title} />
-      <Container width={[1, 1 / 2]} m='0 auto'>
+      <Container width={[null, 1 / 2]} mx={[2, 'auto']}>
         { isLoggedIn ? <App/ > : <Login /> }
        </Container>
       <Footer></Footer>

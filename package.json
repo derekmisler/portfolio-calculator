@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "firebase": "^7.8.1",
+    "formik": "^2.1.4",
     "gatsby": "^2.19.7",
     "gatsby-image": "^2.2.39",
     "gatsby-plugin-firebase": "^0.1.8",
