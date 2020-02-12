@@ -1,7 +1,8 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, take } from 'redux-saga/effects'
 import { callApi } from 'utils/callApi'
 
-export function* api(action: { type: string, payload?: any }) {
+export function* api() {
+  const action = yield take('*')
   const { payload = {} } = action
   if (payload.callApi) {
     const [requestType, successType, failureType] = payload.actionTypes

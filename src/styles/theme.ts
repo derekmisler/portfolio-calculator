@@ -12,7 +12,7 @@ export const theme = {
   accent: colors.accent[0],
   link: colors.accent[2],
   linkHover: colors.accent[3],
-  disabled: colors.white[0],
+  disabled: colors.white[2],
   background: colors.gray[0],
   error: colors.error,
   warning: colors.warning,

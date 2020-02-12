@@ -1,11 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { Formik, Form, FormikHelpers } from 'formik'
+import { useSelector, useDispatch } from 'react-redux'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Input } from 'molecules/Forms'
 import { Button } from 'atoms/Buttons'
+import { Alert } from 'atoms/Typography'
 import SEO from 'atoms/Seo'
 import { RootState } from 'utils/reducers'
+import { signIn } from 'utils/actions/auth'
 
 interface FormValuesTypes {
   email: string,
@@ -13,7 +15,8 @@ interface FormValuesTypes {
 }
 
 export const Login = () => {
-  const auth = useSelector(({ auth }: RootState) => auth) || {}
+  const { isAuthing, authError } = useSelector(({ auth }: RootState) => auth) || {}
+  const dispatch = useDispatch()
   const initialValues: FormValuesTypes = { email: '', password: '' }
 
   const validationSchema = Yup.object({
@@ -21,11 +24,8 @@ export const Login = () => {
     password: Yup.string().required('Password is required')
   })
 
-  const handleSubmit = (values: FormValuesTypes, { setSubmitting }: FormikHelpers<FormValuesTypes>) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400)
+  const handleSubmit = ({ email, password }: FormValuesTypes) => {
+    dispatch(signIn(email, password))
   }
 
   return (
@@ -36,16 +36,17 @@ export const Login = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, isValid }) => (
+        {({ isValid, touched }) => (
           <Form>
             <Input type="email" name="email" placeholder="you@domain.com" label="Email" autoFocus mb={4} />
             <Input type="password" name="password" label="Password" mb={5}/>
-            <Button type="submit" disabled={isSubmitting || !isValid}>
+            <Button type="submit" loading={isAuthing} disabled={touched && !isValid}>
               Submit
             </Button>
           </Form>
         )}
       </Formik>
+      { authError && <Alert>{authError}</Alert> }
     </>
   )
 }
