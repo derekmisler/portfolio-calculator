@@ -1,12 +1,18 @@
 import { AuthActionTypes, SIGN_IN, SIGN_OUT } from 'utils/actions/auth'
 
-const defaultState = {
-  isAuthing: false,
-  isLoggedIn: false,
-  authError: null
+interface StateTypes {
+  isAuthing: boolean
+  isLoggedIn: boolean
+  authError?: string
 }
 
-export const authReducer = (state = defaultState, action: AuthActionTypes) => {
+const defaultState: StateTypes = {
+  isAuthing: false,
+  isLoggedIn: false,
+  authError: undefined
+}
+
+export const authReducer = (state = defaultState, action: AuthActionTypes): StateTypes => {
   if (!action) return state
   console.log('----------')
   console.log('action.payload', action.payload)
@@ -22,7 +28,7 @@ export const authReducer = (state = defaultState, action: AuthActionTypes) => {
         ...state,
         isAuthing: false,
         isLoggedIn: true,
-        authError: null
+        authError: undefined
       }
     case SIGN_IN.FAILURE:
       return {
@@ -40,7 +46,7 @@ export const authReducer = (state = defaultState, action: AuthActionTypes) => {
         ...state,
         isAuthing: false,
         isLoggedIn: false,
-        authError: null
+        authError: undefined
       }
     case SIGN_OUT.FAILURE:
       return {

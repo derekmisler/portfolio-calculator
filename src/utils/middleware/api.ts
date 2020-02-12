@@ -1,7 +1,7 @@
 import { call, put, take } from 'redux-saga/effects'
 import { callApi } from 'utils/callApi'
 
-export function* api() {
+function* api() {
   const action = yield take('*')
   const { payload = {} } = action
   if (payload.callApi) {
@@ -17,4 +17,7 @@ export function* api() {
       yield put({ type: failureType, payload: error })
     }
   }
+}
+
+export default function* rootApi() {
 }

@@ -4,12 +4,12 @@ export const SIGN_IN = keymirror({
   REQUEST: '',
   SUCCESS: '',
   FAILURE: '',
-})
+}, 'SIGN_IN')
 export const SIGN_OUT = keymirror({
   REQUEST: '',
   SUCCESS: '',
   FAILURE: '',
-})
+}, 'SIGN_OUT')
 
 interface SignInAction {
   type: typeof SIGN_IN.REQUEST | typeof SIGN_IN.SUCCESS | typeof SIGN_IN.FAILURE
@@ -23,19 +23,15 @@ export type AuthActionTypes = SignInAction | SignOutAction
 
 
 export const signIn = (email: string, password: string) => ({
+  type: SIGN_IN.REQUEST,
   payload: {
-    auth: true,
     email,
-    password,
-    actionTypes: Object.keys(SIGN_IN)
+    password
   }
 })
 
 
 export const signOut = () => ({
-  payload: {
-    auth: true,
-    actionTypes: Object.keys(SIGN_OUT)
-  }
+  type: SIGN_OUT.REQUEST
 })
 

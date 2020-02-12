@@ -7,7 +7,7 @@ export interface RootState {
   auth: any
 }
 
-export const rootReducer = combineReducers({
+export default combineReducers({
   user: userReducer,
   auth: authReducer
 })

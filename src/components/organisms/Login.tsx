@@ -40,7 +40,7 @@ export const Login = () => {
           <Form>
             <Input type="email" name="email" placeholder="you@domain.com" label="Email" autoFocus mb={4} />
             <Input type="password" name="password" label="Password" mb={5}/>
-            <Button type="submit" loading={isAuthing} disabled={touched && !isValid}>
+            <Button type="submit" isLoading={isAuthing} disabled={!(touched.email || touched.password) || !isValid}>
               Submit
             </Button>
           </Form>
