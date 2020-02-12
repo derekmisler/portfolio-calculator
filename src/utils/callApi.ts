@@ -1,13 +1,8 @@
-import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
 
-export const NOAA_ENDPOINTS = {
+export const ENDPOINTS = {
   points: 'points',
   alerts: 'alerts/active/zone'
-}
-export const GOOGLE_ENDPOINTS = {
-  places: 'place/autocomplete/json',
-  geocode: 'geocode/json'
 }
 
 const KEYS = {
@@ -15,7 +10,7 @@ const KEYS = {
 }
 
 interface RequestDataTypes {
-  method?: 'GET' | 'PUT' | 'POST'
+  method?: 'PUT' | 'POST' | 'GET'
   body?: any
   url?: string
   group?: string
@@ -23,18 +18,24 @@ interface RequestDataTypes {
   params?: { [key: string]: string | number }
 }
 
+interface RequestObjectTypes extends Omit<RequestDataTypes, 'endpoint'> {
+  headers: Headers
+  data?: string
+  mode?: 'cors' | 'navigate' | 'same-origin' | 'no-cors'
+  cache?: 'default' | 'no-store' | 'reload' | 'no-cache' | 'force-cache' | 'only-if-cached'
+}
+
 const createRequestObj = (requestData: RequestDataTypes) => {
-  const { method = 'get', endpoint, body = {} } = requestData
-  const url = createFullUrl(requestData)
-  const isGoogle = Object.values(GOOGLE_ENDPOINTS).includes(endpoint)
-  const requestObject: AxiosRequestConfig = {
-    url,
-    method: method || 'get',
+  const { method = 'GET', body = {} } = requestData
+  const requestObject: RequestObjectTypes = {
+    method,
     headers: new Headers({
-      'Content-Type': isGoogle ? 'application/json' : 'application/ld+json'
-    })
+      'Content-Type': 'application/json'
+    }),
+    mode: 'cors',
+    cache: 'default'
   }
-  if (method !== 'get') requestObject.data = JSON.stringify(body)
+  if (method !== 'GET') requestObject.data = JSON.stringify(body)
   else delete requestObject.data
   return requestObject
 }
@@ -43,13 +44,7 @@ export const createFullUrl = (requestData: RequestDataTypes) => {
   const { url, endpoint, group, params = {} } = requestData
   if (url) return url
 
-  const isGoogle = Object.values(GOOGLE_ENDPOINTS).includes(endpoint)
-
-  if (isGoogle) params.key = KEYS.google
-
-  const API_BASE = isGoogle
-    ? 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api'
-    : 'https://api.weather.gov'
+  const API_BASE = 'https://api.weather.gov'
 
   let fullUrl = `${API_BASE}/${endpoint}`
   if (group) fullUrl += `/${group}`
@@ -58,10 +53,11 @@ export const createFullUrl = (requestData: RequestDataTypes) => {
 }
 
 export const callApi = async (requestData: RequestDataTypes) => {
+  const url = createFullUrl(requestData)
   const request = createRequestObj(requestData)
   try {
-    const { data } = await axios(request)
-    return data
+    const response = await fetch(url, request)
+    return await response.json()
   } catch (error) {
     return Promise.reject(error)
   }

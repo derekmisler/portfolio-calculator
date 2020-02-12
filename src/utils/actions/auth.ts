@@ -1,8 +1,13 @@
-export const AUTH_SUCCESS = 'AUTH_SUCCESS'
-export const AUTH_FAILED = 'AUTH_FAILED'
+import { keymirror } from 'utils/keymirror'
+
+export const AUTH = keymirror({
+  REQUEST: '',
+  SUCCESS: '',
+  FAILURE: '',
+})
 
 interface AuthAction {
-  type: typeof AUTH_SUCCESS
+  type: typeof AUTH
   payload: any
 }
 

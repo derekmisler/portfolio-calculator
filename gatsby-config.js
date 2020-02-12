@@ -12,7 +12,7 @@ const paths = {
 
 module.exports = {
   siteMetadata: {
-    title: `Portfolio Calculator`,
+    title: `Asset Calculator`,
     description: `Simple calculator for asset allocation.`,
     author: `Derek Misler`
   },

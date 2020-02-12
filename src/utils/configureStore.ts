@@ -8,8 +8,7 @@ const sagaMiddleware = createSagaMiddleware()
 const composedMiddleware = composeWithDevTools(applyMiddleware(sagaMiddleware))
 
 export const configureStore = () => {
-  const store: any = createStore(rootReducer, undefined, composedMiddleware)
+  const store: any = createStore(rootReducer, composedMiddleware)
+  sagaMiddleware.run(appMiddleware)
   return store
 }
-
-appMiddleware()
