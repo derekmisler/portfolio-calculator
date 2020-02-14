@@ -1,4 +1,5 @@
 import { UserActionTypes, USER } from 'utils/actions/user'
+import { SIGN_OUT } from 'utils/actions/auth'
 
 interface StateTypes {
   uid: string
@@ -16,6 +17,8 @@ export const userReducer = (state = defaultState, action: UserActionTypes): Stat
         ...state,
         ...action.payload
       }
+    case SIGN_OUT.SUCCESS:
+      return defaultState
     default:
       return state
   }

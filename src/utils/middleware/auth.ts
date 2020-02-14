@@ -41,10 +41,12 @@ function* loginStatusWatcher() {
   while (true) {
     const { user } = yield take(channel)
 
-    yield put(updateUserData(user))
-
-    if (user) yield put({ type: SIGN_IN.SUCCESS })
-    else yield put({ type: SIGN_OUT.SUCCESS })
+    if (user) {
+      yield put({ type: SIGN_IN.SUCCESS })
+      yield put(updateUserData(user.toJSON()))
+    } else {
+      yield put({ type: SIGN_OUT.SUCCESS })
+    }
   }
 }
 

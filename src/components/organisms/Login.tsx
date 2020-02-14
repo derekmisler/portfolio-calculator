@@ -40,7 +40,7 @@ export const Login = () => {
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
         {({ isValid, touched }) => (
           <Form>
-            <Input type='email' name='email' placeholder='you@domain.com' label='Email' autoFocus mb={4} />
+            <Input type='email' name='email' placeholder='you@domain.com' label='Email' mb={4} />
             <Input type='password' name='password' label='Password' mb={5} />
             <Button type='submit' isLoading={isAuthing} disabled={!(touched.email || touched.password) || !isValid}>
               Submit
