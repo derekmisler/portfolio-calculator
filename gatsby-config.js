@@ -90,20 +90,6 @@ module.exports = {
       options: {
         pathToConfigModule: `src/styles/typography`
       }
-    },
-    {
-      resolve: 'gatsby-plugin-firebase',
-      options: {
-        features: {
-          auth: true,
-          database: true,
-          firestore: false,
-          storage: false,
-          messaging: false,
-          functions: false,
-          performance: false
-        }
-      }
     }
   ]
 }

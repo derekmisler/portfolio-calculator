@@ -7,8 +7,10 @@ import appMiddleware from './middleware'
 const sagaMiddleware = createSagaMiddleware()
 const composedMiddleware = composeWithDevTools(applyMiddleware(sagaMiddleware))
 
-export const configureStore = () => {
+const configureStore = () => {
   const store: any = createStore(rootReducer, composedMiddleware)
   sagaMiddleware.run(appMiddleware)
   return store
 }
+
+export default configureStore
