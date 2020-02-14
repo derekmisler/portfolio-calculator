@@ -12,7 +12,7 @@ import { GlobalStyle, theme, TYPOGRAPHY } from 'styles'
 import { RootState } from 'utils/reducers'
 
 const IndexPage = () => {
-  const { isLoggedIn } = useSelector(({ user }: RootState) => user) || {}
+  const { isLoggedIn } = useSelector(({ auth }: RootState) => auth) || {}
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {

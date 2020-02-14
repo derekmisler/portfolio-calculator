@@ -1,6 +1,9 @@
 import styled from 'styled-components'
-import { typography } from 'styled-system'
+import { typography, TypographyProps, space, SpaceProps } from 'styled-system'
 
-export const Text = styled.p`
+interface TextProps extends TypographyProps, SpaceProps {}
+
+export const Text = styled.p<TextProps>`
+  ${space}
   ${typography}
 `

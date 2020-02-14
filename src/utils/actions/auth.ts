@@ -14,13 +14,18 @@ export const SIGN_OUT = keymirror({
 
 export interface AuthActionTypes {
   type: typeof SIGN_IN.REQUEST | typeof SIGN_OUT.REQUEST,
-  payload?: string
+  payload: { email?: string, password?: string, error?: string }
 }
 
-export const signIn = () => ({
-  type: SIGN_IN.REQUEST
+export const signIn = (email?: string, password?: string) => ({
+  type: SIGN_IN.REQUEST,
+  payload: {
+    email,
+    password
+  }
 })
 
 export const signOut = () => ({
-  type: SIGN_OUT.REQUEST
+  type: SIGN_OUT.REQUEST,
+  payload: {}
 })

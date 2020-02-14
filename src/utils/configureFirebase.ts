@@ -1,5 +1,6 @@
-import firebase from 'firebase'
 import ReduxSagaFirebase from 'redux-saga-firebase'
+
+const firebase = typeof window !== 'undefined' ? require('firebase') : { initializeApp: () => {} }
 
 const firebaseApp = firebase.initializeApp({
   apiKey: process.env.GATSBY_FIREBASE_API_KEY,

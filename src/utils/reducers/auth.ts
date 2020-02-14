@@ -34,7 +34,7 @@ export const authReducer = (state = defaultState, action: AuthActionTypes): Stat
       return {
         ...state,
         isAuthing: false,
-        authError: action.payload
+        authError: action.payload.error
       }
     case SIGN_OUT.SUCCESS:
       return defaultState
