@@ -5,16 +5,19 @@ interface StateTypes {
   isUpdating: boolean
   isLoggedIn: boolean
   userError?: string
-  users?: any
+  details?: {
+    uid: string
+  }
 }
 
 const defaultState: StateTypes = {
   isUpdating: false,
   isLoggedIn: false,
-  userError: undefined
+  userError: undefined,
+  details: {
+    uid: ''
+  }
 }
-
-const userSchema = new schema.Entity('users', {}, { idAttribute: 'uid' });
 
 export const userReducer = (state = defaultState, action: UserActionTypes): StateTypes => {
   if (!action) return state
@@ -25,13 +28,12 @@ export const userReducer = (state = defaultState, action: UserActionTypes): Stat
         isUpdating: true
       }
     case USER.SUCCESS: {
-      const { entities: { users = {} } = {} } = normalize(action.payload, userSchema)
       return {
         ...state,
         isUpdating: false,
         isLoggedIn: true,
         userError: undefined,
-        users
+        details: action.payload
       }
     }
     case USER.FAILURE:
@@ -43,7 +45,8 @@ export const userReducer = (state = defaultState, action: UserActionTypes): Stat
     case USER.SIGN_OUT:
       return {
         ...state,
-        isLoggedIn: false
+        isLoggedIn: false,
+        details: undefined
       }
     default:
       return state
