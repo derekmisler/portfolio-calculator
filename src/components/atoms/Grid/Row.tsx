@@ -1,27 +1,13 @@
-import { memo, SFC } from 'react'
 import styled from 'styled-components'
-import {
-  StyledComponentProps,
-  SmMdLgSizes,
-  FlexAlignment
-} from 'styles'
+import { grid, GridProps, space, SpaceProps, flexbox, FlexboxProps } from 'styled-system'
+import { StyledComponentProps } from 'styles'
 
-interface RowProps extends StyledComponentProps {
-  columns?: number
-  columnsDesktop?: number
-  padding?: SmMdLgSizes
-  margin?: SmMdLgSizes
-  gap?: SmMdLgSizes
-  vAlign?: FlexAlignment
-  hAlign?: FlexAlignment
-  fullHeight?: boolean
+interface RowProps extends StyledComponentProps, GridProps, SpaceProps, FlexboxProps {
 }
 
-const StyledGrid = styled.div<RowProps>`
-  position: relative;
+export const Row = styled.div<RowProps>`
   display: grid;
-  margin: 0 auto;
-  align-items: ${({ vAlign = 'stretch' }) => vAlign};
-  justify-items: ${({ hAlign = 'stretch' }) => hAlign};
+  ${grid}
+  ${flexbox}
+  ${space}
 `
-export const Row: SFC<RowProps> = memo(props => <StyledGrid {...props} />)
