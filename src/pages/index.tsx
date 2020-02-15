@@ -9,10 +9,10 @@ import { useSelector } from 'react-redux'
 import { GoogleFont, TypographyStyle } from 'react-typography'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle, theme, TYPOGRAPHY } from 'styles'
-import { RootState } from 'utils/reducers'
+import { authSelector } from 'utils/selectors'
 
 const IndexPage = () => {
-  const { isLoggedIn } = useSelector(({ auth }: RootState) => auth) || {}
+  const { isLoggedIn } = useSelector(authSelector)
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -31,8 +31,8 @@ const IndexPage = () => {
       <GoogleFont typography={TYPOGRAPHY} />
       <Header siteTitle={data.site.siteMetadata.title} />
       <Container width={[null, 1 / 2]} mx={[2, 'auto']}>
-        { isLoggedIn ? <App/ > : <Login /> }
-       </Container>
+        {isLoggedIn ? <App /> : <Login />}
+      </Container>
       <Footer></Footer>
     </ThemeProvider>
   )

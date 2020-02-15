@@ -1,8 +1,9 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux-immutable'
+import { Map } from 'immutable'
 import { userReducer } from './user'
 import { authReducer } from './auth'
 
-export interface RootState {
+export interface RootState extends Map<any, any> {
   user: any
   auth: any
 }

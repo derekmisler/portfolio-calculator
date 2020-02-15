@@ -6,8 +6,8 @@ import { Button } from 'atoms/Buttons'
 import { Input } from 'molecules/Forms'
 import { Text, Alert } from 'atoms/Typography'
 import SEO from 'atoms/Seo'
-import { RootState } from 'utils/reducers'
 import { signIn } from 'utils/actions/auth'
+import { authSelector } from 'utils/selectors'
 
 interface FormValuesTypes {
   email: string
@@ -15,7 +15,8 @@ interface FormValuesTypes {
 }
 
 export const Login = () => {
-  const { isAuthing, authError } = useSelector(({ auth }: RootState) => auth) || {}
+  const { isAuthing, authError } = useSelector(authSelector)
+
   const dispatch = useDispatch()
   const initialValues: FormValuesTypes = { email: '', password: '' }
 
@@ -45,7 +46,9 @@ export const Login = () => {
             <Button type='submit' isLoading={isAuthing} disabled={!(touched.email || touched.password) || !isValid}>
               Submit
             </Button>
-            <Text textAlign='center' m={0} lineHeight='3'>or</Text>
+            <Text textAlign='center' m={0} lineHeight='3'>
+              or
+            </Text>
             <Button type='button' onClick={handleClick} isLoading={isAuthing}>
               Google
             </Button>

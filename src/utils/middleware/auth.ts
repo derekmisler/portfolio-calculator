@@ -51,6 +51,8 @@ function* loginStatusWatcher() {
 }
 
 export default function* loginRootSaga() {
-  yield fork(loginStatusWatcher)
-  yield all([takeEvery(SIGN_IN.REQUEST, signInSaga), takeEvery(SIGN_OUT.REQUEST, signOutSaga)])
+  if (typeof window !== 'undefined') {
+    yield fork(loginStatusWatcher)
+    yield all([takeEvery(SIGN_IN.REQUEST, signInSaga), takeEvery(SIGN_OUT.REQUEST, signOutSaga)])
+  }
 }
