@@ -1,7 +1,7 @@
 import { fromJS, Map } from 'immutable'
 import { UserActionTypes, USER } from 'utils/actions/user'
 
-interface PostionTypes {
+export interface PostionTypes {
   id: string
   numShares: number
   price: number
@@ -26,7 +26,7 @@ const defaultState: StateTypes = fromJS({
   availableCash: 0,
   positions: [
     {
-      id: '',
+      id: '123',
       numShares: 0,
       price: 0,
       total: 0,

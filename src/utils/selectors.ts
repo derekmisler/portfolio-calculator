@@ -11,3 +11,8 @@ export const authSelector = createSelector(
   (state: AuthState) => state.getIn(['auth']),
   substate => substate.toJS(),
 )
+
+export const positionsSelector = createSelector(
+  (state: AuthState) => state.getIn(['positions']),
+  substate => substate.toJS(),
+)

@@ -20,7 +20,6 @@ function* signInSaga(action: AuthActionTypes) {
       const authProvider = new firebase.auth.GoogleAuthProvider()
       yield call(rsf.auth.signInWithPopup, authProvider)
     }
-    yield put({ type: SIGN_IN.SUCCESS })
   } catch ({ message }) {
     yield put({ type: SIGN_IN.FAILURE, payload: { error: message } })
   }
@@ -29,7 +28,6 @@ function* signInSaga(action: AuthActionTypes) {
 function* signOutSaga() {
   try {
     yield call(rsf.auth.signOut)
-    yield put({ type: SIGN_OUT.SUCCESS })
   } catch ({ message }) {
     yield put({ type: SIGN_OUT.FAILURE, payload: { error: message } })
   }
