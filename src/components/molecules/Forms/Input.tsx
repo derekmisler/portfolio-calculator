@@ -24,6 +24,8 @@ const StyledInput = styled.input.attrs<{ mask?: any }>(({ mask }) => ({
   ${border}
   display: block;
   width: 100%;
+  border-radius: 0;
+  outline: none;
   color: ${({ theme }) => theme.body};
   background-color: transparent;
   border-left: 0px;
