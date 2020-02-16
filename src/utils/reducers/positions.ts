@@ -11,19 +11,26 @@ export interface PostionTypes {
   buy: number
 }
 
-export interface StateTypes extends Map<any, any> {
+export interface TotalsTypes {
   costToBuy: number
   totalCash: number
   totalPositionValue: number
   availableCash: number
+}
+
+export interface StateTypes extends Map<any, any> {
+  totals: TotalsTypes
   positions: PostionTypes[]
 }
 
 const defaultState: StateTypes = fromJS({
-  costToBuy: 0,
-  totalCash: 0,
-  totalPostionValue: 0,
-  availableCash: 0,
+  totals: {
+    costToBuy: 0,
+    totalCash: 0,
+    totalPostionValue: 0,
+    availableCash: 0,
+    totalPercentage: 100
+  },
   positions: [
     {
       id: '123',
