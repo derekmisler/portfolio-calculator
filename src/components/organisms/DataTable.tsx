@@ -11,7 +11,7 @@ export const DataTable = () => {
   const { positions } = useSelector(positionsSelector)
 
   return (
-    <TableContainer width={[1, 1 / 2]} mx={[2, 'auto']}>
+    <TableContainer width={[null, 1 / 2]} mx={[2, 'auto']}>
       <Table>
         <Thead>
           <Tr>

@@ -52,7 +52,7 @@ export const Login = () => {
     <>
       <SEO title='Login' />
       <Header siteTitle={data.site.siteMetadata.title} />
-      <Container as='main' width={[1, 1 / 2]} mx={[2, 'auto']}>
+      <Container as='main' width={[null, 1 / 2]} mx={[2, 'auto']}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           {({ isValid, touched }) => (
             <Form>
