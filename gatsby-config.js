@@ -40,8 +40,7 @@ module.exports = {
         styles: paths.src('styles'),
         pages: paths.src('pages'),
         images: paths.src('images'),
-        types: paths.src('types'),
-        icons: paths.src('icons')
+        types: paths.src('types')
       }
     },
     {
@@ -90,14 +89,6 @@ module.exports = {
       resolve: `gatsby-plugin-typography`,
       options: {
         pathToConfigModule: `src/styles/typography`
-      }
-    },
-    {
-      resolve: 'gatsby-plugin-react-svg',
-      options: {
-        rule: {
-          include: /icons/
-        }
       }
     }
   ]

@@ -14,8 +14,7 @@
       "styles/*": ["styles/*"],
       "pages/*": ["pages/*"],
       "images/*": ["images/*"],
-      "types/*": ["types/*"],
-      "icons/*": ["icons/*"]
+      "types/*": ["types/*"]
     },
     "moduleResolution": "node",
     "allowJs": true,
