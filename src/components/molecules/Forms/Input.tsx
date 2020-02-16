@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { space, SpaceProps, layout, LayoutProps, border, BorderProps } from 'styled-system'
 import { Text, Span, Alert } from 'atoms/Typography'
 import { phoneFormat } from 'utils/format'
-import { InputTypes } from 'constants/inputTypes'
+import { INPUT_TYPES } from 'constants/inputTypes'
 
 interface InputProps extends SpaceProps, LayoutProps, BorderProps {
   label?: string
@@ -42,7 +42,7 @@ export const Input: SFC<InputProps> = memo(({ label, autoFocus, type, height, si
 
   let mask
   switch (type) {
-    case InputTypes.tel:
+    case INPUT_TYPES.tel:
       mask = phoneFormat
   }
   const componentProps = mask

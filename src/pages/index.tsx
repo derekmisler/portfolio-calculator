@@ -1,38 +1,21 @@
-import { Container } from 'atoms/Container'
-import { graphql, useStaticQuery } from 'gatsby'
-import { Footer } from 'molecules/Footer'
-import { Header } from 'molecules/Header'
-import { App } from 'organisms/App'
-import { Login } from 'organisms/Login'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { GoogleFont, TypographyStyle } from 'react-typography'
 import { ThemeProvider } from 'styled-components'
+import { GoogleFont, TypographyStyle } from 'react-typography'
+import { Footer } from 'molecules/Footer'
+import { App } from 'organisms/App'
+import { Login } from 'organisms/Login'
 import { GlobalStyle, theme, TYPOGRAPHY } from 'styles'
 import { authSelector } from 'utils/selectors'
 
 const IndexPage = () => {
   const { isLoggedIn } = useSelector(authSelector)
-
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
-
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle theme={theme} />
       <TypographyStyle typography={TYPOGRAPHY} />
       <GoogleFont typography={TYPOGRAPHY} />
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <Container width={[null, 1 / 2]} mx={[2, 'auto']}>
-        {isLoggedIn ? <App /> : <Login />}
-      </Container>
+      {isLoggedIn ? <App /> : <Login />}
       <Footer></Footer>
     </ThemeProvider>
   )

@@ -1,9 +1,12 @@
 import styled from 'styled-components'
-import { layout, LayoutProps, space, SpaceProps } from 'styled-system'
+import { layout, LayoutProps, space, SpaceProps, flexbox, FlexboxProps } from 'styled-system'
 
-interface StyledContainerProps extends LayoutProps, SpaceProps {}
+interface StyledContainerProps extends LayoutProps, SpaceProps, FlexboxProps {}
 
-export const Container = styled.main<StyledContainerProps>`
+export const Container = styled.section<StyledContainerProps>`
+  display: flex;
+  width: 100%;
   ${space}
   ${layout}
+  ${flexbox}
 `

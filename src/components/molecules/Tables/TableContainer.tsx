@@ -4,8 +4,10 @@ import { layout, LayoutProps, space, SpaceProps, flexbox, FlexboxProps } from 's
 interface TableContainerProps extends SpaceProps, FlexboxProps, LayoutProps {
 }
 
-export const TableContainer = styled.div<TableContainerProps>`
+export const TableContainer = styled.section<TableContainerProps>`
   ${flexbox}
   ${layout}
   ${space}
+  display: flex;
+  flex-basis: 100%;
 `

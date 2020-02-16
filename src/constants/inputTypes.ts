@@ -1,6 +1,6 @@
 import { keymirror } from 'utils/keymirror'
 
-export const InputTypes = keymirror({
+export const INPUT_TYPES = keymirror({
   button: '',
   checkbox: '',
   color: '',
