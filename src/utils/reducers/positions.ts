@@ -1,5 +1,5 @@
 import { fromJS, Map } from 'immutable'
-import { UserActionTypes, USER } from 'utils/actions/user'
+import { UserActionTypes } from 'utils/actions/user'
 
 export interface PostionTypes {
   id: string
@@ -15,6 +15,7 @@ export interface TotalsTypes {
   costToBuy: number
   totalCash: number
   totalPositionValue: number
+  totalPercentage: number
   availableCash: number
 }
 
