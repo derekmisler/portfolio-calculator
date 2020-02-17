@@ -4,12 +4,12 @@ import { color, ColorProps, space, SpaceProps, border, BorderProps, typography, 
 
 interface ThProps extends SpaceProps, BorderProps, ColorProps, TypographyProps {}
 
-const StyledTh = styled.td<ThProps>`
+const StyledTh = styled.th<ThProps>`
   ${border}
   ${color}
   ${space}
   ${typography}
 `
 export const Th: SFC<ThProps> = memo(({ color, ...props }) => (
-  <StyledTh borderBottom='1px solid' borderColor='border' {...props} />
+  <StyledTh {...props} />
 ))

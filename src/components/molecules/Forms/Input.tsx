@@ -26,14 +26,14 @@ const StyledInput = styled.input.attrs<{ mask?: any }>(({ mask }) => ({
   width: 100%;
   border-radius: 0;
   outline: none;
-  color: ${({ theme }) => theme.body};
+  color: ${({ theme }) => theme.colors.body};
   background-color: transparent;
   border-left: 0px;
   border-right: 0px;
   border-top: 0px;
   box-shadow: none;
   &::placeholder {
-    color: ${({ theme }) => theme.body};
+    color: ${({ theme }) => theme.colors.body};
   }
 `
 

@@ -9,5 +9,5 @@
   "jsxBracketSameLine": false,
   "arrowParens": "avoid",
   "quoteProps": "as-needed",
-  "printWidth": 120
+  "printWidth": 100
 }

@@ -41,7 +41,7 @@ const LoadingWrapper = styled.div<SpaceProps>`
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: ${({ theme }) => theme.accent};
+    background: ${({ theme }) => theme.colors.accent};
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   & div:nth-child(1) {

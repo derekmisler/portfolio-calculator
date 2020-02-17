@@ -5,7 +5,6 @@ interface StyledContainerProps extends LayoutProps, SpaceProps, FlexboxProps {}
 
 export const Container = styled.section<StyledContainerProps>`
   display: flex;
-  width: 100%;
   ${space}
   ${layout}
   ${flexbox}

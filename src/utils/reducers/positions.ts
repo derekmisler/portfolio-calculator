@@ -31,17 +31,7 @@ const defaultState: StateTypes = fromJS({
     availableCash: 0,
     totalPercentage: 100
   },
-  positions: [
-    {
-      id: '123',
-      numShares: 0,
-      price: 0,
-      total: 0,
-      expectedPercentage: 0,
-      realPercentage: 0,
-      buy: 0
-    }
-  ]
+  positions: []
 })
 
 export const positionsReducer = (state = defaultState, action: UserActionTypes): StateTypes => {

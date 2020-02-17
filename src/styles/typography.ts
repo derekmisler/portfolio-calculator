@@ -32,8 +32,8 @@ export const TYPOGRAPHY = new Typography({
   bodyWeight: 400,
   boldWeight: 700,
   headerWeight: 700,
-  bodyColor: theme.body,
-  headerColor: theme.header,
+  bodyColor: theme.colors.body,
+  headerColor: theme.colors.header,
   blockMarginBottom: 0
 })
 

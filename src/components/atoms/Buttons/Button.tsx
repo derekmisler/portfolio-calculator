@@ -26,15 +26,15 @@ const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   align-items: center;
   border: 0;
-  color: ${({ theme }) => theme.background};
-  background-color: ${({ theme, disabled, isLoading }) => (disabled || isLoading ? theme.disabled : theme.link)};
+  color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme, disabled, isLoading }) => (disabled || isLoading ? theme.colors.disabled : theme.colors.link)};
   ${({ isPrimary }) => isPrimary ? PrimaryButtonStyles : ActionButtonStyles};
   &:hover,
   &:focus,
   &:active {
     outline: none;
     cursor: ${({ disabled, isLoading }) => (disabled || isLoading ? 'unset' : 'pointer')};
-    background-color: ${({ theme, disabled, isLoading }) => (disabled || isLoading ? theme.disabled : theme.linkHover)};
+    background-color: ${({ theme, disabled, isLoading }) => (disabled || isLoading ? theme.colors.disabled : theme.colors.linkHover)};
   }
 `
 

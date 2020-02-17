@@ -11,13 +11,13 @@ interface LinkProps extends TypographyProps {
 const StyledLink = styled(GatsbyLink)<LinkProps>`
   ${typography}
   text-decoration: none;
-  color: ${({ theme }) => theme.link};
+  color: ${({ theme }) => theme.colors.link};
   &:hover,
   &:focus {
-    color: ${({ theme }) => theme.linkHover};
+    color: ${({ theme }) => theme.colors.linkHover};
   }
   &:active {
-    color: ${({ theme }) => theme.link};
+    color: ${({ theme }) => theme.colors.link};
   }
 `
 

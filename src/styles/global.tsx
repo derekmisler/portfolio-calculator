@@ -2,8 +2,10 @@ import { createGlobalStyle } from 'styled-components'
 
 interface GlobalStyleProps {
   theme: {
-    background: string
-    body: string
+    colors: {
+      background: string
+      body: string
+    }
   }
 }
 
@@ -29,8 +31,8 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   }
   html { font-size: 16px; }
   body {
-    background-color: ${({ theme }) => theme.background};
-    color: ${({ theme }) => theme.body};
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.body};
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
   }
