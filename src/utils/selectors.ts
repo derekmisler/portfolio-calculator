@@ -1,22 +1,31 @@
 import { createSelector } from 'reselect'
-import { StateTypes as AuthState } from 'utils/reducers/auth'
+import { StateTypes as AuthState, UserTypes } from 'utils/reducers/auth'
+import { StateTypes as PositionTypes, ShareTypes, TotalsTypes } from 'utils/reducers/positions'
 
 export const userSelector = createSelector(
   (state: AuthState) => state.getIn(['auth', 'user']),
-  substate => substate.toJS(),
+  (substate): UserTypes => substate.toJS()
 )
 
 export const authSelector = createSelector(
   (state: AuthState) => state.getIn(['auth']),
-  substate => substate.toJS(),
+  substate => substate.toJS()
 )
 
 export const positionsSelector = createSelector(
-  (state: AuthState) => state.getIn(['positions']),
-  substate => substate.toJS(),
+  (state: PositionTypes) => state.getIn(['positions']),
+  substate => substate.toJS()
 )
 
 export const sharesSelector = createSelector(
-  (state: AuthState) => state.getIn(['positions', 'shares']),
-  substate => substate.toArray(),
+  (state: PositionTypes) => state.getIn(['positions', 'shares']),
+  (substate): ShareTypes[] => {
+    const jsShares = substate.toJS()
+    return Object.values(jsShares)
+  }
+)
+
+export const totalsSelector = createSelector(
+  (state: PositionTypes) => state.getIn(['positions', 'totals']),
+  (substate): TotalsTypes => substate.toJS()
 )

@@ -1,18 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { TableContainer, Table } from 'molecules/Tables'
-import { positionsSelector } from 'utils/selectors'
+import { positionsSelector, sharesSelector } from 'utils/selectors'
 import { Head } from './Head'
 import { Body } from './Body'
 import { Foot } from './Foot'
 
 export const DataTable = () => {
-  const { positions, totals } = useSelector(positionsSelector)
+  const { totals } = useSelector(positionsSelector)
+  const shares = useSelector(sharesSelector)
   return (
     <TableContainer width={[null, 1 / 2]} mx={[2, 'auto']}>
       <Table>
         <Head />
-        <Body positions={positions} />
+        <Body shares={shares} />
         <Foot totals={totals} />
       </Table>
     </TableContainer>

@@ -25,7 +25,9 @@ export interface StateTypes extends Map<any, any> {
   isFetchingPositions: boolean
   positionsError: string
   totals: TotalsTypes
-  shares: ShareTypes[]
+  shares: {
+    [positionId: string]: ShareTypes
+  }
 }
 
 const defaultState: StateTypes = fromJS({
@@ -38,7 +40,7 @@ const defaultState: StateTypes = fromJS({
     availableCash: 0,
     totalPercentage: 100
   },
-  shares: []
+  shares: {}
 })
 
 export const positionsReducer = (state = defaultState, action: PositionsActionsTypes): StateTypes => {
@@ -49,10 +51,20 @@ export const positionsReducer = (state = defaultState, action: PositionsActionsT
     case UPDATE_POSITION.REQUEST:
     case ADD_POSITION.REQUEST:
       return state.setIn(['isFetchingPositions'], true)
+    case UPDATE_POSITION.SUCCESS:
     case ADD_POSITION.SUCCESS:
       return state
         .setIn(['isFetchingPositions'], false)
         .setIn(['positionsError'], undefined)
+        .setIn(['shares', action.payload.positionId], action.payload.share)
+        .setIn(['totals'], action.payload.totals)
+    case DELETE_POSITION.SUCCESS:
+      return state
+        .setIn(['isFetchingPositions'], false)
+        .setIn(['positionsError'], undefined)
+        .setIn(['shares', action.payload.share.positionId], undefined)
+        .setIn(['totals'], action.payload.totals)
+    case DELETE_POSITION.FAILURE:
     case ADD_POSITION.FAILURE:
       return state
         .setIn(['isFetchingPositions'], false)

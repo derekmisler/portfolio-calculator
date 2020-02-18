@@ -27,9 +27,9 @@ function* addPosition(action: PositionsActionsTypes) {
     const { payload } = action
     const positionId = uuid()
     const { uid } = yield select(userSelector)
-    const updatedPayload = { ...payload, positionId }
-    yield call(rsf.database.update, `users/${uid}/positions/${positionId}`, updatedPayload)
-    yield put({ type: ADD_POSITION.SUCCESS, payload: updatedPayload })
+    const shares = { ...payload, positionId }
+    yield call(rsf.database.update, `users/${uid}/positions/${positionId}`, shares)
+    yield put({ type: ADD_POSITION.SUCCESS, payload: { shares } })
   } catch ({ message }) {
     yield put({ type: ADD_POSITION.FAILURE, payload: { error: message } })
   }
