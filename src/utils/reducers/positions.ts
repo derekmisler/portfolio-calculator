@@ -1,8 +1,10 @@
-import { fromJS, Map } from 'immutable'
-import { POSITIONS, PositionsActionsTypes } from 'utils/actions/positions'
+import { normalize, schema } from 'normalizr'
+import { fromJS, Map, List } from 'immutable'
+import { GET_POSITIONS, ADD_POSITION, UPDATE_POSITION, DELETE_POSITION, PositionsActionsTypes } from 'utils/actions/positions'
 
-export interface PostionTypes {
-  id: string
+export interface ShareTypes {
+  positionId: string
+  abbr: string
   numShares: number
   price: number
   total: number
@@ -20,11 +22,15 @@ export interface TotalsTypes {
 }
 
 export interface StateTypes extends Map<any, any> {
+  isFetchingPositions: boolean
+  positionsError: string
   totals: TotalsTypes
-  positions: PostionTypes[]
+  shares: ShareTypes[]
 }
 
 const defaultState: StateTypes = fromJS({
+  isFetchingPositions: false,
+  positionsError: undefined,
   totals: {
     costToBuy: 0,
     totalCash: 0,
@@ -32,18 +38,25 @@ const defaultState: StateTypes = fromJS({
     availableCash: 0,
     totalPercentage: 100
   },
-  positions: []
+  shares: []
 })
 
 export const positionsReducer = (state = defaultState, action: PositionsActionsTypes): StateTypes => {
   if (!action) return state
   switch (action.type) {
-    case POSITIONS.ADD:
+    case DELETE_POSITION.REQUEST:
+    case GET_POSITIONS.REQUEST:
+    case UPDATE_POSITION.REQUEST:
+    case ADD_POSITION.REQUEST:
+      return state.setIn(['isFetchingPositions'], true)
+    case ADD_POSITION.SUCCESS:
       return state
-    case POSITIONS.UPDATE:
+        .setIn(['isFetchingPositions'], false)
+        .setIn(['positionsError'], undefined)
+    case ADD_POSITION.FAILURE:
       return state
-    case POSITIONS.DELETE:
-      return state
+        .setIn(['isFetchingPositions'], false)
+        .setIn(['positionsError'], action.payload.error)
     default:
       return state
   }

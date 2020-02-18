@@ -1,4 +1,4 @@
-import { keymirror } from 'utils/keymirror'
+import { keymirror } from 'utils/createActions'
 
 export const INPUT_TYPES = keymirror({
   button: '',

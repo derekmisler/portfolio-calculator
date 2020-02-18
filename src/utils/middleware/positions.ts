@@ -1,6 +1,7 @@
-import { all, call, select, takeEvery, fork, take, put } from 'redux-saga/effects'
+import { all, call, select, takeEvery, put } from 'redux-saga/effects'
+import uuid from 'uuid/v4'
 import rsf from 'utils/configureFirebase'
-import { POSITIONS, PositionsActionsTypes, syncFirebasePositions } from 'utils/actions/positions'
+import { GET_POSITIONS, ADD_POSITION, UPDATE_POSITION, DELETE_POSITION, PositionsActionsTypes } from 'utils/actions/positions'
 import { userSelector } from 'utils/selectors'
 
 // database.read(pathOrRef)
@@ -11,45 +12,58 @@ import { userSelector } from 'utils/selectors'
 // database.channel(pathOrRef, event, buffer)
 // database.sync(pathOrRef, options, event)
 
+function* getPositions() {
+  try {
+    const { uid } = yield select(userSelector)
+    const positions = yield call(rsf.database.read, `users/${uid}/positions`)
+    yield put({ type: GET_POSITIONS.SUCCESS, payload: positions.toJSON() })
+  } catch ({ message }) {
+    yield put({ type: GET_POSITIONS.FAILURE, payload: { error: message } })
+  }
+}
+
 function* addPosition(action: PositionsActionsTypes) {
-  const { uid } = yield select(userSelector)
-  yield call(rsf.database.create, `users/${uid}/positions`, { ...action.payload })
+  try {
+    const { payload } = action
+    const positionId = uuid()
+    const { uid } = yield select(userSelector)
+    const updatedPayload = { ...payload, positionId }
+    yield call(rsf.database.update, `users/${uid}/positions/${positionId}`, updatedPayload)
+    yield put({ type: ADD_POSITION.SUCCESS, payload: updatedPayload })
+  } catch ({ message }) {
+    yield put({ type: ADD_POSITION.FAILURE, payload: { error: message } })
+  }
 }
 
 function* updatePosition(action: PositionsActionsTypes) {
-  const { uid } = yield select(userSelector)
-  yield call(rsf.database.patch, `users/${uid}/positions/${action.payload.id}`, {
-    ...action.payload
-  })
+  try {
+    const { payload } = action
+    const { uid } = yield select(userSelector)
+    yield call(rsf.database.patch, `users/${uid}/positions/${payload.positionId}`, payload)
+    yield put({ type: UPDATE_POSITION.SUCCESS, payload })
+  } catch ({ message }) {
+    yield put({ type: UPDATE_POSITION.FAILURE, payload: { error: message } })
+  }
 }
 
 function* deletePosition(action: PositionsActionsTypes) {
-  const { uid } = yield select(userSelector)
-  yield call(rsf.database.delete, `users/${uid}/positions/${action.payload.id}`)
-}
-
-function* databaseUpdateWatcher() {
-  const { uid } = yield select(userSelector)
-  const channel = yield call(rsf.database.channel, `users/${uid}/positions`, 'value')
-
-  while (true) {
-    const positions = yield take(channel)
-
-    if (positions) {
-      yield put(syncFirebasePositions(positions.toJSON()))
-    } else {
-      yield put({ type: POSITIONS.SYNC_ERROR })
-    }
+  try {
+    const { payload } = action
+    const { uid } = yield select(userSelector)
+    yield call(rsf.database.delete, `users/${uid}/positions/${payload.positionId}`)
+    yield put({ type: DELETE_POSITION.SUCCESS, payload })
+  } catch ({ message }) {
+    yield put({ type: DELETE_POSITION.FAILURE, payload: { error: message } })
   }
 }
 
 export default function* positionsRootSaga() {
   if (typeof window !== 'undefined') {
-    yield fork(databaseUpdateWatcher)
     yield all([
-      takeEvery(POSITIONS.ADD, addPosition),
-      takeEvery(POSITIONS.UPDATE, updatePosition),
-      takeEvery(POSITIONS.DELETE, deletePosition)
+      takeEvery(GET_POSITIONS.REQUEST, getPositions),
+      takeEvery(ADD_POSITION.REQUEST, addPosition),
+      takeEvery(UPDATE_POSITION.REQUEST, updatePosition),
+      takeEvery(DELETE_POSITION.REQUEST, deletePosition)
     ])
   }
 }

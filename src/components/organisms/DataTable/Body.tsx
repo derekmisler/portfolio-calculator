@@ -17,8 +17,8 @@ export const Body: SFC<BodyProps> = memo(({ positions }) => {
     return (
       <Tbody>
         {positions.map((p: PostionTypes) => (
-          <Tr key={p.id}>
-            <Td>{p.id}</Td>
+          <Tr key={p.positionId} id={p.positionId}>
+            <Td>{p.abbr}</Td>
             <Td textAlign='right'>{p.numShares}</Td>
             <Td textAlign='right'>{formatCurrency(p.price)}</Td>
             <Td textAlign='right'>{formatCurrency(p.total)}</Td>
@@ -31,7 +31,7 @@ export const Body: SFC<BodyProps> = memo(({ positions }) => {
     )
   }
   const dispatch = useDispatch()
-  const positionValues = createData('', 1, 0, 0)
+  const positionValues = createData('---', 1, 0, 0)
   const handleClick = () => {
     dispatch(addPosition(positionValues))
   }
