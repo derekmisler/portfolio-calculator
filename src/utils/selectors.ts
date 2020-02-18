@@ -1,9 +1,8 @@
 import { createSelector } from 'reselect'
-import { StateTypes as UserState } from 'utils/reducers/user'
 import { StateTypes as AuthState } from 'utils/reducers/auth'
 
 export const userSelector = createSelector(
-  (state: UserState) => state.getIn(['user']),
+  (state: AuthState) => state.getIn(['auth', 'user']),
   substate => substate.toJS(),
 )
 

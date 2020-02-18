@@ -1,16 +1,22 @@
 import { fromJS, Map } from 'immutable'
 import { AuthActionTypes, SIGN_IN, SIGN_OUT } from 'utils/actions/auth'
 
+export interface UserTypes {
+  uid: string
+}
+
 export interface StateTypes extends Map<any, any> {
   isAuthing: boolean
   isLoggedIn: boolean
   authError?: string
+  user: UserTypes
 }
 
 const defaultState: StateTypes = fromJS({
-  isAuthing: false,
+  isAuthing: true,
   isLoggedIn: false,
-  authError: undefined
+  authError: undefined,
+  user: {}
 })
 
 export const authReducer = (state = defaultState, action: AuthActionTypes): StateTypes => {
@@ -24,6 +30,7 @@ export const authReducer = (state = defaultState, action: AuthActionTypes): Stat
         .setIn(['isAuthing'], false)
         .setIn(['isLoggedIn'], true)
         .setIn(['authError'], undefined)
+        .setIn(['user'], fromJS(action.payload))
     case SIGN_OUT.FAILURE:
     case SIGN_IN.FAILURE:
       return state

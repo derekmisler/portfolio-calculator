@@ -13,7 +13,7 @@ export const Foot: SFC<FootProps> = memo(({ totals }) => (
       <Td colSpan={2}>{formatCurrency(totals.totalCash)}</Td>
       <Td textAlign='right'>{formatCurrency(totals.totalPositionValue)}</Td>
       <Td textAlign='right'>{formatPercentage(totals.totalPercentage)}</Td>
-      <Td textAlign='right'>{formatCurrency(totals.availableCash)}</Td>
+      <Td colSpan={2} textAlign='right'>{formatCurrency(totals.availableCash)}</Td>
       <Td textAlign='right'>{formatCurrency(totals.costToBuy)}</Td>
     </Tr>
   </Tfoot>

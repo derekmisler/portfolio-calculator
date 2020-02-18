@@ -1,5 +1,5 @@
 import { fromJS, Map } from 'immutable'
-import { UserActionTypes } from 'utils/actions/user'
+import { POSITIONS, PositionsActionsTypes } from 'utils/actions/positions'
 
 export interface PostionTypes {
   id: string
@@ -28,16 +28,22 @@ const defaultState: StateTypes = fromJS({
   totals: {
     costToBuy: 0,
     totalCash: 0,
-    totalPostionValue: 0,
+    totalPositionValue: 0,
     availableCash: 0,
     totalPercentage: 100
   },
   positions: []
 })
 
-export const positionsReducer = (state = defaultState, action: UserActionTypes): StateTypes => {
+export const positionsReducer = (state = defaultState, action: PositionsActionsTypes): StateTypes => {
   if (!action) return state
   switch (action.type) {
+    case POSITIONS.ADD:
+      return state
+    case POSITIONS.UPDATE:
+      return state
+    case POSITIONS.DELETE:
+      return state
     default:
       return state
   }

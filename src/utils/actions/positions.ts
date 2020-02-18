@@ -4,6 +4,8 @@ export const POSITIONS = keymirror({
   ADD: '',
   UPDATE: '',
   DELETE: '',
+  SYNC_SUCCESS: '',
+  SYNC_ERROR: ''
 }, 'POSITIONS')
 
 export interface PositionsActionsTypes {
@@ -24,4 +26,9 @@ export const updatePosition = (position: any) => ({
 export const deletePosition = (id: string) => ({
   type: POSITIONS.DELETE,
   payload: { id }
+})
+
+export const syncFirebasePositions = (positions: any[]) => ({
+  type: POSITIONS.SYNC_SUCCESS,
+  payload: positions
 })

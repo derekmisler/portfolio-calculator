@@ -1,7 +1,7 @@
-export const createData = (id: string, numShares: number, price: number, expectedPercentage: number, realPercentage: number) => ({
+export const createData = (id: string, numShares: number, price: number, expectedPercentage: number) => ({
   id,
   numShares,
   price,
-  expectedPercentage,
-  realPercentage
+  total: price * numShares,
+  expectedPercentage
 })

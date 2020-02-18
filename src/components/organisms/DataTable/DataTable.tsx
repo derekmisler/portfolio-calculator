@@ -8,16 +8,11 @@ import { Foot } from './Foot'
 
 export const DataTable = () => {
   const { positions, totals } = useSelector(positionsSelector)
-  const hasPositions = !!positions && !!positions.length
   return (
     <TableContainer width={[null, 1 / 2]} mx={[2, 'auto']}>
       <Table>
         <Head />
-        {
-          hasPositions
-          ? <Body positions={positions} />
-          : <></>
-        }
+        <Body positions={positions} />
         <Foot totals={totals} />
       </Table>
     </TableContainer>
