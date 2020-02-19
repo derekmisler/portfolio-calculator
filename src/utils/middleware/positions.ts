@@ -27,9 +27,9 @@ function* addPosition(action: PositionsActionsTypes) {
   try {
     const { payload } = action
     const { uid } = yield select(userSelector)
-    const positionId = uuid()
-    const share = { ...payload, positionId }
-    yield call(rsf.database.update, `users/${uid}/positions/${positionId}`, share)
+    const id = uuid()
+    const share = { ...payload, id }
+    yield call(rsf.database.update, `users/${uid}/positions/${id}`, share)
     yield put({ type: ADD_POSITION.SUCCESS, payload: share })
   } catch ({ message }) {
     yield put({ type: ADD_POSITION.FAILURE, payload: { error: message } })
@@ -41,7 +41,7 @@ function* updatePosition(action: PositionsActionsTypes) {
     const { payload } = action
     const { uid } = yield select(userSelector)
     const share = { ...payload }
-    yield call(rsf.database.patch, `users/${uid}/positions/${payload.positionId}`, share)
+    yield call(rsf.database.patch, `users/${uid}/positions/${payload.id}`, share)
     yield put({ type: UPDATE_POSITION.SUCCESS, payload: { share } })
   } catch ({ message }) {
     yield put({ type: UPDATE_POSITION.FAILURE, payload: { error: message } })
@@ -52,7 +52,7 @@ function* deletePosition(action: PositionsActionsTypes) {
   try {
     const { payload } = action
     const { uid } = yield select(userSelector)
-    yield call(rsf.database.delete, `users/${uid}/positions/${payload.positionId}`)
+    yield call(rsf.database.delete, `users/${uid}/positions/${payload.id}`)
     yield put({ type: DELETE_POSITION.SUCCESS, payload })
   } catch ({ message }) {
     yield put({ type: DELETE_POSITION.FAILURE, payload: { error: message } })

@@ -1,9 +1,8 @@
 import { fromJS, Map } from 'immutable'
 import { GET_POSITIONS, ADD_POSITION, UPDATE_POSITION, DELETE_POSITION, UPDATE_TOTALS, PositionsActionsTypes } from 'utils/actions/positions'
-import uuid from 'uuid/v4'
 
 export interface ShareTypes {
-  positionId: string
+  id: string
   abbr: string
   numShares: number
   price: number
@@ -14,7 +13,7 @@ export interface ShareTypes {
 }
 
 export interface SharesTypes {
-  [positionId: string]: ShareTypes
+  [id: string]: ShareTypes
 }
 
 export interface TotalsTypes {
@@ -32,8 +31,6 @@ export interface StateTypes extends Map<any, any> {
   shares: SharesTypes
 }
 
-const initialPositionId = uuid()
-
 const defaultState: StateTypes = fromJS({
   isFetchingPositions: false,
   positionsError: undefined,
@@ -49,7 +46,8 @@ const defaultState: StateTypes = fromJS({
 
 export const positionsReducer = (state = defaultState, action: PositionsActionsTypes): StateTypes => {
   if (!action) return state
-  switch (action.type) {
+  const { type, payload } = action
+  switch (type) {
     case UPDATE_TOTALS.REQUEST:
     case DELETE_POSITION.REQUEST:
     case GET_POSITIONS.REQUEST:
@@ -60,35 +58,35 @@ export const positionsReducer = (state = defaultState, action: PositionsActionsT
       return state
         .setIn(['isFetchingPositions'], false)
         .deleteIn(['positionsError'])
-        .mergeDeepIn(['shares'], action.payload.shares)
-        .mergeDeepIn(['totals'], action.payload.totals)
+        .mergeDeepIn(['shares'], payload.shares)
+        .mergeDeepIn(['totals'], payload.totals)
     case ADD_POSITION.SUCCESS:
       return state
         .setIn(['isFetchingPositions'], false)
         .deleteIn(['positionsError'])
-        .setIn(['shares', action.payload.positionId], action.payload)
+        .setIn(['shares', payload.id], payload)
     case UPDATE_POSITION.SUCCESS:
       return state
         .setIn(['isFetchingPositions'], false)
         .deleteIn(['positionsError'])
-        .mergeDeepIn(['shares', action.payload.positionId], action.payload)
+        .mergeDeepIn(['shares', payload.id], payload)
     case DELETE_POSITION.SUCCESS:
       return state
         .setIn(['isFetchingPositions'], false)
         .deleteIn(['positionsError'])
-        .deleteIn(['shares', action.payload.positionId])
+        .deleteIn(['shares', payload.id])
     case UPDATE_TOTALS.SUCCESS:
       return state
         .setIn(['isFetchingPositions'], false)
-        .mergeDeepIn(['shares'], action.payload.shares)
-        .mergeDeepIn(['totals'], action.payload.totals)
+        .mergeDeepIn(['shares'], payload.shares)
+        .mergeDeepIn(['totals'], payload.totals)
     case UPDATE_POSITION.FAILURE:
     case UPDATE_TOTALS.FAILURE:
     case DELETE_POSITION.FAILURE:
     case ADD_POSITION.FAILURE:
       return state
         .setIn(['isFetchingPositions'], false)
-        .setIn(['positionsError'], action.payload.error)      
+        .setIn(['positionsError'], payload.error)      
     default:
       return state
   }

@@ -31,8 +31,6 @@ type UpdateTotalsActions =
   | typeof UPDATE_TOTALS.SUCCESS
   | typeof UPDATE_TOTALS.FAILURE
 
-type UpdateTotalsAction = typeof UPDATE_TOTALS
-
 export interface PositionsActionsTypes {
   type: GetPositionsActions | AddPositionActions | UpdatePositionActions | DeletePositionActions | UpdateTotalsActions
   payload: any
@@ -52,9 +50,9 @@ export const updatePosition = (position: any) => ({
   payload: { ...position }
 })
 
-export const deletePosition = (positionId: string) => ({
+export const deletePosition = (id: string) => ({
   type: DELETE_POSITION.REQUEST,
-  payload: { positionId }
+  payload: { id }
 })
 
 export const updateTotals = (totals: any) => ({

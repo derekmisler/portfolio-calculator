@@ -14,9 +14,9 @@ interface BodyProps {
 
 export const Body: SFC<BodyProps> = memo(({ share: s }) => {
   const dispatch = useDispatch()
-  const handleClick = () => dispatch(deletePosition(s.positionId))
+  const handleClick = () => dispatch(deletePosition(s.id))
   return (
-    <Tr key={s.positionId} id={s.positionId}>
+    <Tr key={s.id} id={s.id}>
       <Td>{s.abbr}</Td>
       <Td textAlign='right'>
         <Text>{s.numShares}</Text>

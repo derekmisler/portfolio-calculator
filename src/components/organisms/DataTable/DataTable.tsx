@@ -14,6 +14,9 @@ export const DataTable = () => {
   const { isFetchingPositions } = useSelector(positionsSelector)
   const totals = useSelector(totalsSelector)
   const shares = useSelector(sharesSelector)
+  console.log('----------')
+  console.log('DataTable', shares)
+  console.log('^^^^^^^^^^')
   const dispatch = useDispatch()
   const positionValues = createData('---', 1, 1, 100)
   const handleClick = () => dispatch(addPosition(positionValues))
@@ -23,7 +26,7 @@ export const DataTable = () => {
         <Head />
         <Tbody>
           {shares.map((s: ShareTypes) => (
-            <Body key={s.positionId} share={s} />
+            <Body key={s.id} share={s} />
           ))}
           <Tr>
             <Td colSpan={7}>

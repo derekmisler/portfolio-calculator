@@ -16,7 +16,7 @@ export const createData = (
 export const calculateTotals = (currentTotals: TotalsTypes, currentShares: ShareTypes[]) => {
   let totalPositionValue = 0
   let totalPercentage = 0
-  Object.values(currentShares).forEach((share: ShareTypes) => {
+  currentShares.forEach((share: ShareTypes) => {
     totalPercentage += share.expectedPercentage
     totalPositionValue += share.total
   })
@@ -29,7 +29,7 @@ export const calculateTotals = (currentTotals: TotalsTypes, currentShares: Share
       realPercentage: (share.total / totalPositionValue) * 100
     }))
     .reduce((keyedShares, share) => {
-      keyedShares[share.positionId] = share
+      keyedShares[share.id] = share
       return keyedShares
     }, {} as SharesTypes)
 
