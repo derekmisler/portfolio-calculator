@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { TableContainer, Table, Tbody, Tr, Td } from 'molecules/Tables'
-import { positionsSelector, sharesSelector } from 'utils/selectors'
+import { positionsSelector, sharesSelector, totalsSelector } from 'utils/selectors'
 import { ShareTypes } from 'utils/reducers/positions'
 import { Button } from 'atoms/Buttons'
 import { createData } from 'utils/createData'
@@ -11,7 +11,8 @@ import { Body } from './Body'
 import { Foot } from './Foot'
 
 export const DataTable = () => {
-  const { totals } = useSelector(positionsSelector)
+  const { isFetchingPositions } = useSelector(positionsSelector)
+  const totals = useSelector(totalsSelector)
   const shares = useSelector(sharesSelector)
   const dispatch = useDispatch()
   const positionValues = createData('---', 1, 1, 100)
@@ -28,7 +29,7 @@ export const DataTable = () => {
           ))}
           <Tr>
             <Td colSpan={7}>
-              <Button onClick={handleClick}>Add Position</Button>
+              <Button onClick={handleClick} isLoading={isFetchingPositions}>Add Position</Button>
             </Td>
           </Tr>
         </Tbody>

@@ -16,7 +16,8 @@ function* getPositions() {
   try {
     const { uid } = yield select(userSelector)
     const shares = yield call(rsf.database.read, `users/${uid}/positions`)
-    yield put({ type: GET_POSITIONS.SUCCESS, payload: shares || {} })
+    const totals = yield call(rsf.database.read, `users/${uid}/totals`)
+    yield put({ type: GET_POSITIONS.SUCCESS, payload: { shares, totals } })
   } catch ({ message }) {
     yield put({ type: GET_POSITIONS.FAILURE, payload: { error: message } })
   }
@@ -28,7 +29,7 @@ function* addPosition(action: PositionsActionsTypes) {
     const { uid } = yield select(userSelector)
     const positionId = uuid()
     const share = { ...payload, positionId }
-    // yield call(rsf.database.update, `users/${uid}/positions/${positionId}`, share)
+    yield call(rsf.database.update, `users/${uid}/positions/${positionId}`, share)
     yield put({ type: ADD_POSITION.SUCCESS, payload: share })
   } catch ({ message }) {
     yield put({ type: ADD_POSITION.FAILURE, payload: { error: message } })
@@ -59,9 +60,11 @@ function* deletePosition(action: PositionsActionsTypes) {
 }
 
 function* updateTotals() {
+  const { uid } = yield select(userSelector)
   const currentTotals = yield select(totalsSelector)
   const currentShares = yield select(sharesSelector)
   const { totals, shares } = calculateTotals(currentTotals, currentShares)
+  yield call(rsf.database.update, `users/${uid}/totals`, totals)
   const payload = { totals, shares }
   yield put({ type: UPDATE_TOTALS, payload })
 }
@@ -69,7 +72,7 @@ function* updateTotals() {
 export default function* positionsRootSaga() {
   if (typeof window !== 'undefined') {
     yield all([
-      // takeEvery(GET_POSITIONS.REQUEST, getPositions),
+      takeEvery(GET_POSITIONS.REQUEST, getPositions),
       takeEvery(ADD_POSITION.REQUEST, addPosition),
       takeEvery(UPDATE_POSITION.REQUEST, updatePosition),
       takeEvery(DELETE_POSITION.REQUEST, deletePosition),

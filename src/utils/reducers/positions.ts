@@ -70,7 +70,8 @@ export const positionsReducer = (state = defaultState, action: PositionsActionsT
       return state
         .setIn(['isFetchingPositions'], false)
         .delete(['positionsError'])
-        .setIn(['shares'], action.payload)
+        .mergeDeepIn(['shares'], action.payload.shares)
+        .mergeDeepIn(['totals'], action.payload.totals)
     case ADD_POSITION.SUCCESS:
       return state
         .setIn(['isFetchingPositions'], false)
