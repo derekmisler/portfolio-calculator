@@ -59,14 +59,18 @@ function* deletePosition(action: PositionsActionsTypes) {
   }
 }
 
-function* updateTotals() {
-  const { uid } = yield select(userSelector)
-  const currentTotals = yield select(totalsSelector)
-  const currentShares = yield select(sharesSelector)
-  const { totals, shares } = calculateTotals(currentTotals, currentShares)
-  yield call(rsf.database.update, `users/${uid}/totals`, totals)
-  const payload = { totals, shares }
-  yield put({ type: UPDATE_TOTALS, payload })
+function* updateTotals(action: PositionsActionsTypes) {
+  try {
+    const { payload: { totals: newTotals = {} } = {} } = action
+    const { uid } = yield select(userSelector)
+    const currentTotals = yield select(totalsSelector)
+    const currentShares = yield select(sharesSelector)
+    const { totals, shares } = calculateTotals({ ...currentTotals, ...newTotals }, currentShares)
+    yield call(rsf.database.update, `users/${uid}/totals`, totals)
+    yield put({ type: UPDATE_TOTALS.SUCCESS, payload: { totals, shares } })
+  } catch ({ message }) {
+    yield put({ type: UPDATE_TOTALS.FAILURE, payload: { error: message } })
+  }
 }
 
 export default function* positionsRootSaga() {
@@ -78,6 +82,7 @@ export default function* positionsRootSaga() {
       takeEvery(DELETE_POSITION.REQUEST, deletePosition),
       takeLatest(
         [
+          UPDATE_TOTALS.REQUEST,
           ADD_POSITION.SUCCESS,
           UPDATE_POSITION.SUCCESS,
           DELETE_POSITION.SUCCESS,

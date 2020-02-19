@@ -11,6 +11,7 @@ export const Head = () => (
           <Heading level={4}>{h.label}</Heading>
         </Th>
       ))}
+      <Th />
     </Tr>
   </Thead>
 )

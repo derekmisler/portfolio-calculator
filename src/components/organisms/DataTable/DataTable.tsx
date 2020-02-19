@@ -16,9 +16,7 @@ export const DataTable = () => {
   const shares = useSelector(sharesSelector)
   const dispatch = useDispatch()
   const positionValues = createData('---', 1, 1, 100)
-  const handleClick = () => {
-    dispatch(addPosition(positionValues))
-  }
+  const handleClick = () => dispatch(addPosition(positionValues))
   return (
     <TableContainer width={[null, 1 / 2]} mx={[2, 'auto']}>
       <Table>

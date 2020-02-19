@@ -4,7 +4,7 @@ export const GET_POSITIONS = createActions('GET_POSITIONS')
 export const ADD_POSITION = createActions('ADD_POSITION')
 export const UPDATE_POSITION = createActions('UPDATE_POSITION')
 export const DELETE_POSITION = createActions('DELETE_POSITION')
-export const UPDATE_TOTALS = 'UPDATE_TOTALS'
+export const UPDATE_TOTALS = createActions('UPDATE_TOTALS')
 
 type GetPositionsActions =
   | typeof GET_POSITIONS.REQUEST
@@ -26,10 +26,15 @@ type DeletePositionActions =
   | typeof DELETE_POSITION.SUCCESS
   | typeof DELETE_POSITION.FAILURE
 
+type UpdateTotalsActions =
+  | typeof UPDATE_TOTALS.REQUEST
+  | typeof UPDATE_TOTALS.SUCCESS
+  | typeof UPDATE_TOTALS.FAILURE
+
 type UpdateTotalsAction = typeof UPDATE_TOTALS
 
 export interface PositionsActionsTypes {
-  type: GetPositionsActions | AddPositionActions | UpdatePositionActions | DeletePositionActions | UpdateTotalsAction
+  type: GetPositionsActions | AddPositionActions | UpdatePositionActions | DeletePositionActions | UpdateTotalsActions
   payload: any
 }
 
@@ -50,4 +55,9 @@ export const updatePosition = (position: any) => ({
 export const deletePosition = (positionId: string) => ({
   type: DELETE_POSITION.REQUEST,
   payload: { positionId }
+})
+
+export const updateTotals = (totals: any) => ({
+  type: UPDATE_TOTALS.REQUEST,
+  payload: { ...totals }
 })

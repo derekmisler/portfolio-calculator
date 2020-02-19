@@ -23,6 +23,7 @@ export const Foot: SFC<FootProps> = memo(({ totals }) => (
         {formatCurrency(totals.availableCash)}
        </Text></Td>
       <Td textAlign='right'><Text>{formatCurrency(totals.costToBuy)}</Text></Td>
+      <Td />
     </Tr>
   </Tfoot>
 ))
