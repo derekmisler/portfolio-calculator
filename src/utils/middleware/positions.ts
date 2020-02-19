@@ -10,7 +10,7 @@ import {
   PositionsActionsTypes
 } from 'utils/actions/positions'
 import { userSelector, totalsSelector, sharesSelector } from 'utils/selectors'
-import { calculateTotals } from 'utils/createData'
+import { calculateTotalsSelector, calculateSharePercentagesSelector } from 'utils/selectors'
 
 function* getPositions() {
   try {
@@ -65,7 +65,9 @@ function* updateTotals(action: PositionsActionsTypes) {
     const { uid } = yield select(userSelector)
     const currentTotals = yield select(totalsSelector)
     const currentShares = yield select(sharesSelector)
-    const { totals, shares } = calculateTotals({ ...currentTotals, ...newTotals }, currentShares)
+    const totals = calculateTotalsSelector({ ...currentTotals, ...newTotals }, currentShares)
+    const shares = calculateSharePercentagesSelector(currentShares, totals.totalPositionValue)
+
     yield call(rsf.database.update, `users/${uid}/totals`, totals)
     yield put({ type: UPDATE_TOTALS.SUCCESS, payload: { totals, shares } })
   } catch ({ message }) {

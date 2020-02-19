@@ -17,4 +17,4 @@ export const formatCurrency = (val: number, whole?: boolean): string => {
   return `$${formatted}`
 }
 
-export const formatPercentage = (val: number): string => `${Number(val).toFixed(0)}%`
+export const formatPercentage = (val: number = 0): string => `${Number(val).toFixed(0)}%`
