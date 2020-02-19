@@ -1,6 +1,7 @@
 import { all, call, fork, put, take, takeEvery } from 'redux-saga/effects'
 import { SIGN_IN, SIGN_OUT, AuthActionTypes } from 'utils/actions/auth'
 import rsf from 'utils/configureFirebase'
+import { getPositions } from 'utils/actions/positions'
 
 const firebase =
   typeof window !== 'undefined'
@@ -43,6 +44,7 @@ function* loginStatusWatcher() {
 
     if (user) {
       yield put({ type: SIGN_IN.SUCCESS, payload: user.toJSON() })
+      yield put(getPositions())
     } else {
       yield put({ type: SIGN_OUT.SUCCESS })
     }

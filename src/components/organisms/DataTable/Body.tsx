@@ -12,31 +12,24 @@ interface BodyProps {
 }
 
 export const Body: SFC<BodyProps> = memo(({ shares }) => {
-  const hasPositions = !!shares && shares.length > 0
-  if (hasPositions) {
-    return (
-      <Tbody>
-        {shares.map((s: ShareTypes) => (
-          <Tr key={s.positionId} id={s.positionId}>
-            <Td>{s.abbr}</Td>
-            <Td textAlign='right'>{s.numShares}</Td>
-            <Td textAlign='right'>{formatCurrency(s.price)}</Td>
-            <Td textAlign='right'>{formatCurrency(s.total)}</Td>
-            <Td textAlign='right'>{formatPercentage(s.expectedPercentage)}</Td>
-            <Td textAlign='right'>{formatPercentage(s.realPercentage)}</Td>
-            <Td textAlign='right'>{s.buy}%</Td>
-          </Tr>
-        ))}
-      </Tbody>
-    )
-  }
   const dispatch = useDispatch()
-  const positionValues = createData('---', 1, 0, 0)
+  const positionValues = createData('---', 1, 1, 100)
   const handleClick = () => {
     dispatch(addPosition(positionValues))
   }
   return (
     <Tbody>
+      {shares.map((s: ShareTypes) => (
+        <Tr key={s.positionId} id={s.positionId}>
+          <Td>{s.abbr}</Td>
+          <Td textAlign='right'>{s.numShares}</Td>
+          <Td textAlign='right'>{formatCurrency(s.price)}</Td>
+          <Td textAlign='right'>{formatCurrency(s.total)}</Td>
+          <Td textAlign='right'>{formatPercentage(s.expectedPercentage)}</Td>
+          <Td textAlign='right'>{formatPercentage(s.realPercentage)}</Td>
+          <Td textAlign='right'>{s.buy || 0}</Td>
+        </Tr>
+      ))}
       <Tr>
         <Td colSpan={7}>
           <Button onClick={handleClick}>Add Position</Button>

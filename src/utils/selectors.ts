@@ -20,6 +20,9 @@ export const positionsSelector = createSelector(
 export const sharesSelector = createSelector(
   (state: PositionTypes) => state.getIn(['positions', 'shares']),
   (substate): ShareTypes[] => {
+    console.log('----------')
+    console.log('sharesSelector', substate)
+    console.log('^^^^^^^^^^')
     const jsShares = substate.toJS()
     return Object.values(jsShares)
   }
@@ -27,5 +30,10 @@ export const sharesSelector = createSelector(
 
 export const totalsSelector = createSelector(
   (state: PositionTypes) => state.getIn(['positions', 'totals']),
-  (substate): TotalsTypes => substate.toJS()
+  (substate): TotalsTypes => {
+    console.log('----------')
+    console.log('totalsSelector', substate)
+    console.log('^^^^^^^^^^')
+    return substate.toJS()
+  }
 )
