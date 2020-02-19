@@ -13,7 +13,7 @@ export interface StateTypes extends Map<any, any> {
 }
 
 const defaultState: StateTypes = fromJS({
-  isAuthing: true,
+  isAuthing: false,
   isLoggedIn: false,
   authError: undefined,
   user: {}

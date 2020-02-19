@@ -92,7 +92,6 @@ export const positionsReducer = (state = defaultState, action: PositionsActionsT
         .setIn(['isFetchingPositions'], false)
         .setIn(['positionsError'], action.payload.error)
     case UPDATE_TOTALS:
-      console.log('positionsReducer', JSON.stringify(action.payload))
       return state
         .mergeDeepIn(['shares'], action.payload.shares)
         .mergeDeepIn(['totals'], action.payload.totals)

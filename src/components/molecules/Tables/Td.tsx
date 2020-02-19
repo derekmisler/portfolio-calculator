@@ -18,8 +18,6 @@ export const Td: SFC<TdProps> = memo(({ ref, as, color, ...props }) => (
   <StyledTd
     borderBottom='1px solid'
     borderBottomColor='background'
-    borderTop='1px solid'
-    borderTopColor='text'
     {...props}
   />
 ))

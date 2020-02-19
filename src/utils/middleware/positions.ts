@@ -62,12 +62,6 @@ function* updateTotals() {
   const currentTotals = yield select(totalsSelector)
   const currentShares = yield select(sharesSelector)
   const { totals, shares } = calculateTotals(currentTotals, currentShares)
-  console.log('----------')
-  console.log(JSON.stringify(currentTotals))
-  console.log(JSON.stringify(currentShares))
-  console.log(JSON.stringify(totals))
-  console.log(JSON.stringify(shares))
-  console.log('^^^^^^^^^^')
   const payload = { totals, shares }
   yield put({ type: UPDATE_TOTALS, payload })
 }

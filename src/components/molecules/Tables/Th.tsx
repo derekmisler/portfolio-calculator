@@ -11,5 +11,5 @@ const StyledTh = styled.th<ThProps>`
   ${typography}
 `
 export const Th: SFC<ThProps> = memo(({ color, ...props }) => (
-  <StyledTh {...props} />
+  <StyledTh borderBottom='1px solid' borderBottomColor='accent' {...props} />
 ))
