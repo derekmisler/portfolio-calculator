@@ -57,5 +57,5 @@ export const deletePosition = (id: string) => ({
 
 export const updateTotals = (totals: any) => ({
   type: UPDATE_TOTALS.REQUEST,
-  payload: { ...totals }
+  payload: { totals }
 })

@@ -65,6 +65,9 @@ function* updateTotals(action: PositionsActionsTypes) {
     const { uid } = yield select(userSelector)
     const currentTotals = yield select(totalsSelector)
     const currentShares = yield select(sharesSelector)
+    console.log('----------')
+    console.log('newTotals', newTotals)
+    console.log('^^^^^^^^^^')
     const totals = calculateTotalsSelector({ ...currentTotals, ...newTotals }, currentShares)
     const shares = calculateSharePercentagesSelector(currentShares, totals.totalPositionValue)
 

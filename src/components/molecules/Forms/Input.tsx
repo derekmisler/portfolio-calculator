@@ -1,24 +1,21 @@
-import React, { RefObject, SFC, useEffect, useRef, memo } from 'react'
+import React, { RefObject, SFC, useEffect, useRef, memo, HTMLProps } from 'react'
 import { useField } from 'formik'
-import MaskedInput from 'react-text-mask'
 import styled from 'styled-components'
 import { space, SpaceProps, layout, LayoutProps, border, BorderProps } from 'styled-system'
 import { Text, Span, Alert } from 'atoms/Typography'
-import { phoneFormat } from 'utils/format'
-import { INPUT_TYPES } from 'constants/inputTypes'
 
-interface InputProps extends SpaceProps, LayoutProps, BorderProps {
+interface StyledInputProps extends SpaceProps, LayoutProps, BorderProps {}
+
+interface InputProps extends HTMLProps<HTMLInputElement> {
   label?: string
   id?: string
   name: string
   type?: string | 'text'
   autoFocus?: boolean
   placeholder?: string
+  inline?: boolean
 }
-
-const StyledInput = styled.input.attrs<{ mask?: any }>(({ mask }) => ({
-  as: mask ? MaskedInput : 'input'
-}))<InputProps>`
+const StyledInput = styled.input<StyledInputProps>`
   ${layout}
   ${space}
   ${border}
@@ -37,42 +34,31 @@ const StyledInput = styled.input.attrs<{ mask?: any }>(({ mask }) => ({
   }
 `
 
-export const Input: SFC<InputProps> = memo(({ label, autoFocus, type, height, size, width, ...props }) => {
-  const [field, meta] = useField({ type, ...props })
-  const invalid = !!(meta.touched && meta.error)
-  const ref: RefObject<HTMLInputElement> = useRef(null)
+export const Input: SFC<InputProps> = memo(
+  ({ ref: falseRef, as, label, autoFocus, height, size, width, inline, ...props }) => {
+    const [field, meta] = useField(props)
+    const invalid = !!(meta.touched && meta.error)
+    const ref: RefObject<HTMLInputElement> = useRef(null)
 
-  let mask
-  switch (type) {
-    case INPUT_TYPES.tel:
-      mask = phoneFormat
+    useEffect(() => {
+      if (autoFocus) ref?.current?.focus()
+    }, [])
+
+    return (
+      <>
+        {label && (
+          <Text as='label' htmlFor={props.id || props.name}>
+            <Span small>{invalid ? <Alert>{meta.error}</Alert> : label}</Span>
+          </Text>
+        )}
+        <StyledInput
+          {...field}
+          {...props}
+          id={props.id || props.name}
+          borderBottomWidth={inline ? 1 : 3}
+          borderBottomColor={invalid ? 'error' : 'border'}
+        />
+      </>
+    )
   }
-  const componentProps = mask
-    ? { ref, type, mask, guide: false }
-    : { ref, type }
-
-  useEffect(() => {
-    if (autoFocus) ref?.current?.focus()
-  }, [])
-
-  return (
-    <>
-      {label && (
-        <Text as='label' htmlFor={props.id || props.name}>
-          <Span small>
-            { invalid ? <Alert>{meta.error}</Alert> : label }
-          </Span>
-        </Text>
-      )}
-      <StyledInput
-        {...componentProps}
-        {...field}
-        {...props}
-        id={props.id || props.name}
-        width={1}
-        borderBottomWidth={3}
-        borderBottomColor={invalid ? 'error' : 'border'}
-       />
-    </>
-  )
-})
+)
