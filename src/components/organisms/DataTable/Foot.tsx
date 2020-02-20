@@ -27,7 +27,11 @@ export const Foot: SFC<FootProps> = memo(({ totals }) => {
     <Tfoot>
       <Tr>
         <Td colSpan={2}>
-          <Formik initialValues={{ totalCash: totals.totalCash }} onSubmit={handleSubmit}>
+          <Formik
+            enableReinitialize
+            initialValues={{ totalCash: totals.totalCash }}
+            onSubmit={handleSubmit}
+          >
             {() => (
               <Form>
                 <Input onBlur={handleBlur} name='totalCash' type='number' inline />

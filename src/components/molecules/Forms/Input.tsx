@@ -1,12 +1,12 @@
 import React, { RefObject, SFC, useEffect, useRef, memo, HTMLProps } from 'react'
 import { useField } from 'formik'
 import styled from 'styled-components'
-import { space, SpaceProps, layout, LayoutProps, border, BorderProps } from 'styled-system'
+import { space, SpaceProps, border, BorderProps } from 'styled-system'
 import { Text, Span, Alert } from 'atoms/Typography'
 
-interface StyledInputProps extends SpaceProps, LayoutProps, BorderProps {}
+interface StyledInputProps extends SpaceProps, BorderProps {}
 
-interface InputProps extends HTMLProps<HTMLInputElement> {
+interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   label?: string
   id?: string
   name: string
@@ -16,7 +16,6 @@ interface InputProps extends HTMLProps<HTMLInputElement> {
   inline?: boolean
 }
 const StyledInput = styled.input<StyledInputProps>`
-  ${layout}
   ${space}
   ${border}
   display: block;
@@ -35,7 +34,7 @@ const StyledInput = styled.input<StyledInputProps>`
 `
 
 export const Input: SFC<InputProps> = memo(
-  ({ ref: falseRef, as, label, autoFocus, height, size, width, inline, ...props }) => {
+  ({ ref: falseRef, as, label, autoFocus, inline, ...props }) => {
     const [field, meta] = useField(props)
     const invalid = !!(meta.touched && meta.error)
     const ref: RefObject<HTMLInputElement> = useRef(null)
