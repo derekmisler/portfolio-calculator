@@ -39,7 +39,7 @@ export const calculateSharePercentagesSelector = createSelector(
   (currentShares: ShareTypes[], totalPositionValue: number) => (
     currentShares.map(share => ({
       ...share,
-      realPercentage: (share.total / totalPositionValue) * 100
+      realPercentage: ((share.total / totalPositionValue) || 0) * 100
     }))
   ),
   currentShares => (

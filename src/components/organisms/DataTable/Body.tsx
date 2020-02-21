@@ -1,46 +1,26 @@
-import React, { SFC, memo } from 'react'
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
-import { useDispatch } from 'react-redux'
-import { Tr, Td } from 'molecules/Tables'
-import { Text } from 'atoms/Typography'
+import React, { memo, SFC } from 'react'
+import { Tbody, Tr, Td } from 'molecules/Tables'
 import { ShareTypes } from 'utils/reducers/positions'
-import { deletePosition } from 'utils/actions/positions'
-import { formatCurrency, formatPercentage } from 'utils/format'
 import { Button } from 'atoms/Buttons'
+import { Row } from './Row'
 
 interface BodyProps {
-  share: ShareTypes
+  shares: ShareTypes[]
+  isFetchingPositions?: boolean
+  addPosition: () => {}
 }
 
-export const Body: SFC<BodyProps> = memo(({ share: s }) => {
-  const dispatch = useDispatch()
-  const handleClick = () => dispatch(deletePosition(s.id))
-  return (
-    <Tr key={s.id} id={s.id}>
-      <Td>{s.abbr}</Td>
-      <Td textAlign='right'>
-        <Text>{s.numShares}</Text>
-      </Td>
-      <Td textAlign='right'>
-        <Text>{formatCurrency(s.price)}</Text>
-      </Td>
-      <Td textAlign='right'>
-        <Text>{formatCurrency(s.total)}</Text>
-      </Td>
-      <Td textAlign='right'>
-        <Text>{formatPercentage(s.expectedPercentage)}</Text>
-      </Td>
-      <Td textAlign='right'>
-        <Text>{formatPercentage(s.realPercentage)}</Text>
-      </Td>
-      <Td textAlign='right'>
-        <Text>{s.buy || 0}</Text>
-      </Td>
-      <Td>
-        <Button type='button' variant='action' onClick={handleClick}>
-          <CloseRoundedIcon />
+export const Body: SFC<BodyProps> = memo(({ shares, isFetchingPositions, addPosition }) => (
+  <Tbody>
+    {shares.map(s => (
+      <Row key={s.id} share={s} />
+    ))}
+    <Tr>
+      <Td colSpan={7}>
+        <Button onClick={addPosition} isLoading={isFetchingPositions}>
+          Add Position
         </Button>
       </Td>
     </Tr>
-  )
-})
+  </Tbody>
+))

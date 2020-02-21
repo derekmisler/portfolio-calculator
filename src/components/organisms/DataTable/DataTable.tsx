@@ -1,9 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { TableContainer, Table, Tbody, Tr, Td } from 'molecules/Tables'
+import { TableContainer, Table } from 'molecules/Tables'
 import { positionsSelector, sharesSelector, totalsSelector } from 'utils/selectors'
-import { ShareTypes } from 'utils/reducers/positions'
-import { Button } from 'atoms/Buttons'
 import { createData } from 'utils/createData'
 import { addPosition } from 'utils/actions/positions'
 import { Head } from './Head'
@@ -15,22 +13,13 @@ export const DataTable = () => {
   const totals = useSelector(totalsSelector)
   const shares = useSelector(sharesSelector)
   const dispatch = useDispatch()
-  const positionValues = createData('---', 1, 1, 100)
-  const handleClick = () => dispatch(addPosition(positionValues))
+  const positionValues = createData('---', 0, 0, 100)
+  const handleAddPosition = () => dispatch(addPosition(positionValues))
   return (
     <TableContainer width={[null, 1 / 2]} mx={[2, 'auto']}>
       <Table>
         <Head />
-        <Tbody>
-          {shares.map((s: ShareTypes) => (
-            <Body key={s.id} share={s} />
-          ))}
-          <Tr>
-            <Td colSpan={7}>
-              <Button onClick={handleClick} isLoading={isFetchingPositions}>Add Position</Button>
-            </Td>
-          </Tr>
-        </Tbody>
+        <Body shares={shares} isFetchingPositions={isFetchingPositions} addPosition={handleAddPosition} />
         <Foot totals={totals} />
       </Table>
     </TableContainer>
