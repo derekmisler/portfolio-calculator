@@ -1,5 +1,6 @@
 import React, { SFC, memo, FocusEvent } from 'react'
 import { Formik } from 'formik'
+import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { Input, Form } from 'molecules/Forms'
 import { Tr, Td, Tfoot } from 'molecules/Tables'
@@ -17,24 +18,30 @@ interface FormValuesTypes {
 }
 export const Foot: SFC<FootProps> = memo(({ totals }) => {
   const dispatch = useDispatch()
-  const handleSubmit = ({ totalCash }: FormValuesTypes) => {
-    dispatch(updateTotals({ totalCash: Number(totalCash) }))
+  const initialValues: FormValuesTypes = { totalCash: totals.totalCash }
+
+  const validationSchema = Yup.object({
+    totalCash: Yup.number()
+  })
+
+  const handleChange = async (values: FormValuesTypes) => {
+    const valid = await validationSchema.isValid(values)
+    if (valid) dispatch(updateTotals(values))
   }
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    dispatch(updateTotals({ totalCash: Number(e?.target?.value) }))
-  }
+
   return (
     <Tfoot>
       <Tr>
         <Td colSpan={2}>
           <Formik
             enableReinitialize
-            initialValues={{ totalCash: totals.totalCash }}
-            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+            initialValues={initialValues}
+            onSubmit={handleChange}
           >
             {() => (
               <Form>
-                <Input onBlur={handleBlur} name='totalCash' type='number' inline />
+                <Input handleBlur={handleChange} name='totalCash' />
               </Form>
             )}
           </Formik>

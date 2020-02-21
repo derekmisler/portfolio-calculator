@@ -1,4 +1,4 @@
-import React, { RefObject, SFC, useEffect, useRef, memo, HTMLProps } from 'react'
+import React, { RefObject, SFC, useEffect, useRef, memo, HTMLProps, FocusEvent } from 'react'
 import { useField } from 'formik'
 import styled from 'styled-components'
 import { space, SpaceProps, border, BorderProps } from 'styled-system'
@@ -13,12 +13,12 @@ interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   type?: string | 'text'
   autoFocus?: boolean
   placeholder?: string
-  inline?: boolean
+  handleBlur?: (v: any) => void
 }
 const StyledInput = styled.input<StyledInputProps>`
   ${space}
   ${border}
-  display: block;
+  display: block
   width: 100%;
   border-radius: 0;
   outline: none;
@@ -34,7 +34,7 @@ const StyledInput = styled.input<StyledInputProps>`
 `
 
 export const Input: SFC<InputProps> = memo(
-  ({ ref: falseRef, as, label, autoFocus, inline, ...props }) => {
+  ({ ref: innerRef, as, label, autoFocus, handleBlur, ...props }) => {
     const [field, meta] = useField(props)
     const invalid = !!(meta.touched && meta.error)
     const ref: RefObject<HTMLInputElement> = useRef(null)
@@ -42,6 +42,11 @@ export const Input: SFC<InputProps> = memo(
     useEffect(() => {
       if (autoFocus) ref?.current?.focus()
     }, [])
+
+    const onBlur = (e: FocusEvent<HTMLInputElement>) => {
+      field.onBlur(e)
+      if (handleBlur) handleBlur({ [e?.target?.name]: e?.target?.value })
+    }
 
     return (
       <>
@@ -54,7 +59,8 @@ export const Input: SFC<InputProps> = memo(
           {...field}
           {...props}
           id={props.id || props.name}
-          borderBottomWidth={inline ? 1 : 3}
+          onBlur={onBlur}
+          borderBottomWidth={1}
           borderBottomColor={invalid ? 'error' : 'border'}
         />
       </>
