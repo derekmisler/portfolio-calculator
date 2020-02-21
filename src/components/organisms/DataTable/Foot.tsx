@@ -1,4 +1,4 @@
-import React, { SFC, memo, FocusEvent } from 'react'
+import React, { SFC, memo } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
@@ -21,7 +21,7 @@ export const Foot: SFC<FootProps> = memo(({ totals }) => {
   const initialValues: FormValuesTypes = { totalCash: totals.totalCash }
 
   const validationSchema = Yup.object({
-    totalCash: Yup.number()
+    totalCash: Yup.number().required('Required')
   })
 
   const handleChange = async (values: FormValuesTypes) => {
@@ -41,7 +41,7 @@ export const Foot: SFC<FootProps> = memo(({ totals }) => {
           >
             {() => (
               <Form>
-                <Input handleBlur={handleChange} name='totalCash' />
+                <Input handleChange={handleChange} name='totalCash' />
               </Form>
             )}
           </Formik>

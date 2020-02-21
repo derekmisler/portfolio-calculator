@@ -1,5 +1,12 @@
 import { fromJS, Map } from 'immutable'
-import { GET_POSITIONS, ADD_POSITION, UPDATE_POSITION, DELETE_POSITION, UPDATE_TOTALS, PositionsActionsTypes } from 'utils/actions/positions'
+import {
+  GET_POSITIONS,
+  ADD_POSITION,
+  UPDATE_POSITION,
+  DELETE_POSITION,
+  UPDATE_TOTALS,
+  PositionsActionsTypes
+} from 'utils/actions/positions'
 
 export interface ShareTypes {
   id: string
@@ -44,7 +51,10 @@ const defaultState: StateTypes = fromJS({
   shares: Map({})
 })
 
-export const positionsReducer = (state = defaultState, action: PositionsActionsTypes): StateTypes => {
+export const positionsReducer = (
+  state = defaultState,
+  action: PositionsActionsTypes
+): StateTypes => {
   if (!action) return state
   const { type, payload } = action
   switch (type) {
@@ -84,9 +94,7 @@ export const positionsReducer = (state = defaultState, action: PositionsActionsT
     case UPDATE_TOTALS.FAILURE:
     case DELETE_POSITION.FAILURE:
     case ADD_POSITION.FAILURE:
-      return state
-        .setIn(['isFetchingPositions'], false)
-        .setIn(['positionsError'], payload.error)      
+      return state.setIn(['isFetchingPositions'], false).setIn(['positionsError'], payload.error)
     default:
       return state
   }

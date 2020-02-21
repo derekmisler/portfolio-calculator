@@ -35,12 +35,16 @@ export const calculateTotalsSelector = createSelector(
   })
 )
 
-export const calculateSharePercentagesSelector = createSelector(
+export const calculateShareValuesSelector = createSelector(
   (currentShares: ShareTypes[], totalPositionValue: number) => (
-    currentShares.map(share => ({
-      ...share,
-      realPercentage: ((share.total / totalPositionValue) || 0) * 100
-    }))
+    currentShares.map(share => {
+      const shareTotal = share.price * share.numShares
+      return {
+        ...share,
+        total: shareTotal,
+        realPercentage: ((shareTotal / totalPositionValue) || 0) * 100,
+      }
+    })
   ),
   currentShares => (
     currentShares.reduce((keyedShares, share) => {

@@ -1,4 +1,4 @@
-import React, { RefObject, SFC, useEffect, useRef, memo, HTMLProps, FocusEvent } from 'react'
+import React, { RefObject, SFC, useEffect, useRef, memo, HTMLProps, ChangeEvent } from 'react'
 import { useField } from 'formik'
 import styled from 'styled-components'
 import { typography, TypographyProps, space, SpaceProps, border, BorderProps } from 'styled-system'
@@ -13,7 +13,7 @@ interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   type?: string | 'text'
   autoFocus?: boolean
   placeholder?: string
-  handleBlur?: (v: any) => void
+  handleChange?: (v: any) => void
 }
 const StyledInput = styled.input<StyledInputProps>`
   ${space}
@@ -35,7 +35,7 @@ const StyledInput = styled.input<StyledInputProps>`
 `
 
 export const Input: SFC<InputProps> = memo(
-  ({ ref: innerRef, as, label, autoFocus, handleBlur, ...props }) => {
+  ({ ref: innerRef, as, label, autoFocus, handleChange, ...props }) => {
     const [field, meta] = useField(props)
     const invalid = !!(meta.touched && meta.error)
     const ref: RefObject<HTMLInputElement> = useRef(null)
@@ -44,9 +44,9 @@ export const Input: SFC<InputProps> = memo(
       if (autoFocus) ref?.current?.focus()
     }, [])
 
-    const onBlur = (e: FocusEvent<HTMLInputElement>) => {
-      field.onBlur(e)
-      if (handleBlur) handleBlur({ [e?.target?.name]: e?.target?.value })
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+      field.onChange(e)
+      if (handleChange) handleChange({ [e?.target?.name]: e?.target?.value })
     }
 
     return (
@@ -60,7 +60,7 @@ export const Input: SFC<InputProps> = memo(
           {...field}
           {...props}
           id={props.id || props.name}
-          onBlur={onBlur}
+          onChange={onChange}
           borderBottomWidth={1}
           borderBottomColor={invalid ? 'error' : 'border'}
         />
