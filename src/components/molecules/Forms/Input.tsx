@@ -1,10 +1,10 @@
 import React, { RefObject, SFC, useEffect, useRef, memo, HTMLProps, FocusEvent } from 'react'
 import { useField } from 'formik'
 import styled from 'styled-components'
-import { space, SpaceProps, border, BorderProps } from 'styled-system'
+import { typography, TypographyProps, space, SpaceProps, border, BorderProps } from 'styled-system'
 import { Text, Span, Alert } from 'atoms/Typography'
 
-interface StyledInputProps extends SpaceProps, BorderProps {}
+interface StyledInputProps extends SpaceProps, BorderProps, TypographyProps {}
 
 interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   label?: string
@@ -18,6 +18,7 @@ interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
 const StyledInput = styled.input<StyledInputProps>`
   ${space}
   ${border}
+  ${typography}
   display: block
   width: 100%;
   border-radius: 0;
