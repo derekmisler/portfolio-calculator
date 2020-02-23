@@ -65,6 +65,9 @@ function* deletePosition(action: PositionsActionsTypes) {
 function* updateTotals(action: PositionsActionsTypes) {
   try {
     const { payload: { totals = {}, shares = {} } = {} } = action
+    console.log('----------')
+    console.log({totals, shares})
+    console.log('^^^^^^^^^^')
     const { totalPositionValue, totalPercentage } = calculateTotals(shares)
     const cashRemaining = calculateCashRemaining(totalPositionValue, totals.cash)
     const { total, realPercentage } = calculateShareValues(shares, totalPositionValue)

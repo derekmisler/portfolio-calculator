@@ -47,10 +47,17 @@ export const calculateShareValues = (currentShares: ShareTypes[], totalPositionV
     },
     { total: 0, realPercentage: 0 }
   )
-//   currentShares => (
-//     currentShares.reduce((keyedShares, share) => {
-//       keyedShares[share.id] = share
-//       return keyedShares
-//     }, {} as SharesTypes)
-//   )
-// )
+export const calculateNumToBuy = (totalPositionValue: number, currentShares: ShareTypes[]) =>
+  currentShares.reduce(
+    (acc, share) => {
+      acc.buy = (totalPositionValue / share.expectedPercentage - share.total) / share.price
+      return acc
+    },
+    { buy: 0 }
+  )
+
+export const formatShares = (shares: ShareTypes[]) =>
+  shares.reduce((keyedShares, share) => {
+    keyedShares[share.id] = share
+    return keyedShares
+  }, {} as SharesTypes)
