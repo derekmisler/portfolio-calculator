@@ -7,5 +7,4 @@ interface FormProps extends SpaceProps, LayoutProps {}
 export const Form = styled(FormikForm)<FormProps>`
   ${layout}
   ${space}
-  flex: 0 0 100%;
 `

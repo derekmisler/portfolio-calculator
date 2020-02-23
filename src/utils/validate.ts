@@ -4,3 +4,5 @@ export const validatePhone = (phone: string | number): boolean => String(phone).
 export const validateEmail = (email: string): boolean => {
   return emailPattern.test(email)
 }
+
+export const currencyPattern = /^\$([0-9]|\,)+(\.[0-9]{1,2})?$/gm

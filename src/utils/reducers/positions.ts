@@ -59,42 +59,34 @@ export const positionsReducer = (
   const { type, payload } = action
   switch (type) {
     case UPDATE_TOTALS.REQUEST:
-    case DELETE_POSITION.REQUEST:
     case GET_POSITIONS.REQUEST:
-    case UPDATE_POSITION.REQUEST:
-    case ADD_POSITION.REQUEST:
+    case ADD_POSITION:
+    case UPDATE_POSITION:
+    case DELETE_POSITION:
       return state.setIn(['isFetchingPositions'], true)
     case GET_POSITIONS.SUCCESS:
-      return state
-        .setIn(['isFetchingPositions'], false)
-        .deleteIn(['positionsError'])
-        .mergeDeepIn(['shares'], payload.shares)
-        .mergeDeepIn(['totals'], payload.totals)
-    case ADD_POSITION.SUCCESS:
-      return state
-        .setIn(['isFetchingPositions'], false)
-        .deleteIn(['positionsError'])
-        .setIn(['shares', payload.id], payload)
-    case UPDATE_POSITION.SUCCESS:
-      return state
-        .setIn(['isFetchingPositions'], false)
-        .deleteIn(['positionsError'])
-        .mergeDeepIn(['shares', payload.id], payload)
-    case DELETE_POSITION.SUCCESS:
-      return state
-        .setIn(['isFetchingPositions'], false)
-        .deleteIn(['positionsError'])
-        .deleteIn(['shares', payload.id])
+      return state.withMutations(map => {
+        map
+          .setIn(['isFetchingPositions'], false)
+          .deleteIn(['positionsError'])
+          .mergeDeepIn(['shares'], payload.shares)
+          .mergeDeepIn(['totals'], payload.totals)
+        })
     case UPDATE_TOTALS.SUCCESS:
-      return state
-        .setIn(['isFetchingPositions'], false)
-        .mergeDeepIn(['shares'], payload.shares)
-        .mergeDeepIn(['totals'], payload.totals)
-    case UPDATE_POSITION.FAILURE:
+      return state.withMutations(map => {
+        map
+          .setIn(['isFetchingPositions'], false)
+          .deleteIn(['positionsError'])
+          .mergeDeepIn(['shares'], payload.shares)
+          .mergeDeepIn(['totals'], payload.totals)
+        })
+    case GET_POSITIONS.FAILURE:
     case UPDATE_TOTALS.FAILURE:
-    case DELETE_POSITION.FAILURE:
-    case ADD_POSITION.FAILURE:
-      return state.setIn(['isFetchingPositions'], false).setIn(['positionsError'], payload.error)
+      return state.withMutations(map => {
+        map
+          .setIn(['isFetchingPositions'], false)
+          .setIn(['positionsError'], payload.error)
+      })
     default:
       return state
   }

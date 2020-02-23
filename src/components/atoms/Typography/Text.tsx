@@ -7,4 +7,5 @@ export const Text = styled.p<TextProps>`
   ${space}
   ${typography}
   ${color}
+  display: block;
 `

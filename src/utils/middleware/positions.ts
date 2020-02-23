@@ -1,5 +1,4 @@
 import { all, call, select, takeEvery, put, takeLatest } from 'redux-saga/effects'
-import uuid from 'uuid/v4'
 import rsf from 'utils/configureFirebase'
 import {
   UPDATE_TOTALS,
@@ -9,8 +8,25 @@ import {
   DELETE_POSITION,
   PositionsActionsTypes
 } from 'utils/actions/positions'
-import { userSelector, totalsSelector, sharesSelector } from 'utils/selectors'
+import { createData } from 'utils/createData'
+import { userSelector } from 'utils/selectors'
 import { calculateTotalsSelector, calculateShareValuesSelector } from 'utils/selectors'
+
+// case ADD_POSITION.SUCCESS:
+//   return state
+//     .setIn(['isFetchingPositions'], false)
+//     .deleteIn(['positionsError'])
+//     .setIn(['shares', payload.id], payload)
+// case UPDATE_POSITION.SUCCESS:
+//   return state
+//     .setIn(['isFetchingPositions'], false)
+//     .deleteIn(['positionsError'])
+//     .mergeDeepIn(['shares', payload.id], payload)
+// case DELETE_POSITION.SUCCESS:
+//   return state
+//     .setIn(['isFetchingPositions'], false)
+//     .deleteIn(['positionsError'])
+//     .deleteIn(['shares', payload.id])
 
 function* getPositions() {
   try {
@@ -24,52 +40,34 @@ function* getPositions() {
 }
 
 function* addPosition(action: PositionsActionsTypes) {
-  try {
-    const { payload } = action
-    const { uid } = yield select(userSelector)
-    const id = uuid()
-    const share = { ...payload, id }
-    yield call(rsf.database.update, `users/${uid}/positions/${id}`, share)
-    yield put({ type: ADD_POSITION.SUCCESS, payload: share })
-  } catch ({ message }) {
-    yield put({ type: ADD_POSITION.FAILURE, payload: { error: message } })
-  }
+  const { payload } = action
+  const share = createData(payload)
+  const shares = yield select(state => state.getIn(['positions', 'shares']))
+  const updatedShares = shares.setIn([share.id], share)
+  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { shares: updatedShares } })
 }
 
 function* updatePosition(action: PositionsActionsTypes) {
-  try {
-    const { payload } = action
-    const { uid } = yield select(userSelector)
-    const share = { ...payload }
-    yield call(rsf.database.patch, `users/${uid}/positions/${payload.id}`, share)
-    yield put({ type: UPDATE_POSITION.SUCCESS, payload: share })
-  } catch ({ message }) {
-    yield put({ type: UPDATE_POSITION.FAILURE, payload: { error: message } })
-  }
+  const { payload } = action
+  const share = { ...payload }
+  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { share } })
 }
 
 function* deletePosition(action: PositionsActionsTypes) {
-  try {
-    const { payload } = action
-    const { uid } = yield select(userSelector)
-    yield call(rsf.database.delete, `users/${uid}/positions/${payload.id}`)
-    yield put({ type: DELETE_POSITION.SUCCESS, payload })
-  } catch ({ message }) {
-    yield put({ type: DELETE_POSITION.FAILURE, payload: { error: message } })
-  }
+  const { payload: share } = action
+  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { share } })
 }
 
 function* updateTotals(action: PositionsActionsTypes) {
   try {
-    const { payload: { totals: newTotals = {} } = {} } = action
-    const { uid } = yield select(userSelector)
-    const currentTotals = yield select(totalsSelector)
-    const currentShares = yield select(sharesSelector)
-    const totals = calculateTotalsSelector({ ...currentTotals, ...newTotals }, currentShares)
-    const shares = calculateShareValuesSelector(currentShares, totals.totalPositionValue)
+    const { payload: { totals = {}, shares = {} } = {} } = action
+    const newTotals = calculateTotalsSelector(totals, shares)
+    const newShares = calculateShareValuesSelector(shares, totals.totalPositionValue)
 
-    yield call(rsf.database.update, `users/${uid}/totals`, totals)
-    yield put({ type: UPDATE_TOTALS.SUCCESS, payload: { totals, shares } })
+    const { uid } = yield select(userSelector)
+    yield call(rsf.database.update, `users/${uid}/positions`, newShares)
+    yield call(rsf.database.update, `users/${uid}/totals`, newTotals)
+    yield put({ type: UPDATE_TOTALS.SUCCESS, payload: { totals: newTotals, newShares } })
   } catch ({ message }) {
     yield put({ type: UPDATE_TOTALS.FAILURE, payload: { error: message } })
   }
@@ -79,19 +77,10 @@ export default function* positionsRootSaga() {
   if (typeof window !== 'undefined') {
     yield all([
       takeEvery(GET_POSITIONS.REQUEST, getPositions),
-      takeEvery(ADD_POSITION.REQUEST, addPosition),
-      takeEvery(UPDATE_POSITION.REQUEST, updatePosition),
-      takeEvery(DELETE_POSITION.REQUEST, deletePosition),
-      takeLatest(
-        [
-          UPDATE_TOTALS.REQUEST,
-          ADD_POSITION.SUCCESS,
-          UPDATE_POSITION.SUCCESS,
-          DELETE_POSITION.SUCCESS,
-          GET_POSITIONS.SUCCESS
-        ],
-        updateTotals
-      )
+      takeEvery(UPDATE_TOTALS.REQUEST, updateTotals),
+      takeEvery(ADD_POSITION, addPosition),
+      takeEvery(UPDATE_POSITION, updatePosition),
+      takeEvery(DELETE_POSITION, deletePosition)
     ])
   }
 }

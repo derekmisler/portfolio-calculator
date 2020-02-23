@@ -3,8 +3,8 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { Input, Form } from 'molecules/Forms'
-import { Tr, Td } from 'molecules/Tables'
+import { Input } from 'molecules/Forms'
+import { Row, Column } from 'atoms/Grid'
 import { Text } from 'atoms/Typography'
 import { ShareTypes } from 'utils/reducers/positions'
 import { deletePosition, updatePosition } from 'utils/actions/positions'
@@ -14,11 +14,9 @@ import { Button } from 'atoms/Buttons'
 interface BodyProps {
   share: ShareTypes
 }
-interface FormValuesTypes {
+interface FormValuesTypes {}
 
-}
-
-export const Row: SFC<BodyProps> = memo(({ share: s }) => {
+export const DataRow: SFC<BodyProps> = memo(({ share: s }) => {
   const dispatch = useDispatch()
   const initialValues: FormValuesTypes = {
     abbr: s.abbr,
@@ -46,40 +44,32 @@ export const Row: SFC<BodyProps> = memo(({ share: s }) => {
       onSubmit={handleChange}
     >
       {() => (
-        <Tr key={s.id} id={s.id}>
-          <Td>
-            <Form>
-              <Input name='abbr' handleChange={handleChange} />
-            </Form>
-          </Td>
-          <Td>
-            <Form>
-              <Input textAlign='right' name='numShares' handleChange={handleChange} />
-            </Form>
-          </Td>
-          <Td textAlign='right'>
-            <Form>
-              <Input textAlign='right' name='price' handleChange={handleChange} />
-            </Form>
-          </Td>
-          <Td textAlign='right'>
-            <Text>{formatCurrency(s.total)}</Text>
-          </Td>
-          <Td textAlign='right'>
-            <Text>{formatPercentage(s.expectedPercentage)}</Text>
-          </Td>
-          <Td textAlign='right'>
-            <Text>{formatPercentage(s.realPercentage)}</Text>
-          </Td>
-          <Td textAlign='right'>
-            <Text>{s.buy || 0}</Text>
-          </Td>
-          <Td>
+        <Row as='form' gridTemplateColumns='repeat(8, 1fr)'>
+          <Column>
+            <Input name='abbr' handleChange={handleChange} />
+          </Column>
+          <Column>
+            <Input textAlign='right' name='numShares' handleChange={handleChange} />
+          </Column>
+          <Column>
+            <Input textAlign='right' name='price' handleChange={handleChange} />
+          </Column>
+          <Text textAlign='right'>{formatCurrency(s.total)}</Text>
+          <Column>
+            <Input textAlign='right' name='expectedPercentage' handleChange={handleChange} />
+          </Column>
+          <Column>
+            <Text textAlign='right'>{formatPercentage(s.realPercentage)}</Text>
+          </Column>
+          <Column>
+            <Text textAlign='right'>{s.buy || 0}</Text>
+          </Column>
+          <Column>
             <Button type='button' variant='action' onClick={handleDeleteClick}>
               <CloseRoundedIcon />
             </Button>
-          </Td>
-        </Tr>
+          </Column>
+        </Row>
       )}
     </Formik>
   )

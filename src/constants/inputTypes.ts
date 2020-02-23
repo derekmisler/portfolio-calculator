@@ -3,6 +3,7 @@ import { keymirror } from 'utils/createActions'
 export const INPUT_TYPES = keymirror({
   button: '',
   checkbox: '',
+  currency: '',
   color: '',
   date: '',
   email: '',

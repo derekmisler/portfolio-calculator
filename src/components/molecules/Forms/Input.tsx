@@ -3,8 +3,12 @@ import { useField } from 'formik'
 import styled from 'styled-components'
 import { typography, TypographyProps, space, SpaceProps, border, BorderProps } from 'styled-system'
 import { Text, Span, Alert } from 'atoms/Typography'
+import { INPUT_TYPES } from 'constants/inputTypes'
+import { CurrencyInput } from './CurrencyInput'
 
-interface StyledInputProps extends SpaceProps, BorderProps, TypographyProps {}
+interface StyledInputProps extends SpaceProps, BorderProps, TypographyProps {
+  isCurrency?: boolean
+}
 
 interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   label?: string
@@ -12,14 +16,16 @@ interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   name: string
   type?: string | 'text'
   autoFocus?: boolean
+  currency?: boolean
   placeholder?: string
   handleChange?: (v: any) => void
 }
-const StyledInput = styled.input<StyledInputProps>`
+const StyledInput = styled.input.attrs<StyledInputProps>(({  }) => ({
+}))<StyledInputProps>`
   ${space}
   ${border}
   ${typography}
-  display: block
+  display: block;
   width: 100%;
   border-radius: 0;
   outline: none;
@@ -35,10 +41,11 @@ const StyledInput = styled.input<StyledInputProps>`
 `
 
 export const Input: SFC<InputProps> = memo(
-  ({ ref: innerRef, as, label, autoFocus, handleChange, ...props }) => {
+  ({ ref: innerRef, as, label, autoFocus, handleChange, type, ...props }) => {
     const [field, meta] = useField(props)
     const invalid = !!(meta.touched && meta.error)
     const ref: RefObject<HTMLInputElement> = useRef(null)
+    const isCurrency = type === INPUT_TYPES.currency
 
     useEffect(() => {
       if (autoFocus) ref?.current?.focus()
@@ -46,7 +53,19 @@ export const Input: SFC<InputProps> = memo(
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
       field.onChange(e)
-      if (handleChange) handleChange({ [e?.target?.name]: e?.target?.value })
+      const { value, name } = e?.target || {}
+      if (handleChange) handleChange({ [name]: value })
+    }
+
+    const inputProps = {
+      ...field,
+      ...props,
+      id: props.id || props.name,
+      type,
+      onChange,
+      isCurrency,
+      borderBottomWidth: 1,
+      borderBottomColor: invalid ? 'error' : 'border'
     }
 
     return (
@@ -56,14 +75,10 @@ export const Input: SFC<InputProps> = memo(
             <Span small>{invalid ? <Alert>{meta.error}</Alert> : label}</Span>
           </Text>
         )}
-        <StyledInput
-          {...field}
-          {...props}
-          id={props.id || props.name}
-          onChange={onChange}
-          borderBottomWidth={1}
-          borderBottomColor={invalid ? 'error' : 'border'}
-        />
+        { isCurrency
+          ? <CurrencyInput render={() => <StyledInput {...inputProps} />} />
+          : <StyledInput {...inputProps} />
+        }
       </>
     )
   }

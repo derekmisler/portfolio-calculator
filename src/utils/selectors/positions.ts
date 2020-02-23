@@ -25,6 +25,9 @@ export const calculateTotalsSelector = createSelector(
     let totalPercentage = 0
     currentShares.forEach((share: ShareTypes) => {
       totalPercentage += share.expectedPercentage
+      console.log('----------')
+      console.log('share', share)
+      console.log('^^^^^^^^^^')
       totalPositionValue += share.total
     })
     return { ...currentTotals, totalPercentage, totalPositionValue }
@@ -42,7 +45,7 @@ export const calculateShareValuesSelector = createSelector(
       return {
         ...share,
         total: shareTotal,
-        realPercentage: ((shareTotal / totalPositionValue) || 0) * 100,
+        realPercentage: (shareTotal / (totalPositionValue || 1)) * 100,
       }
     })
   ),
