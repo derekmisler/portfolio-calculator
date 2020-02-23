@@ -1,10 +1,5 @@
 import uuid from 'uuid/v4'
-import {
-  StateTypes as PositionTypes,
-  ShareTypes,
-  SharesTypes,
-  TotalsTypes
-} from 'utils/reducers/positions'
+import { ShareTypes, SharesTypes } from 'utils/reducers/positions'
 
 export const createData = ({
   abbr,
@@ -39,22 +34,12 @@ export const calculateCashRemaining = (totalPositionValue: number, totalCash: nu
   totalCash - totalPositionValue
 
 export const calculateShareValues = (currentShares: ShareTypes[], totalPositionValue: number) =>
-  currentShares.reduce(
-    (acc, share) => {
-      acc.total = share.price * share.numShares
-      acc.realPercentage = (acc.total / (totalPositionValue || 1)) * 100
-      return acc
-    },
-    { total: 0, realPercentage: 0 }
-  )
-export const calculateNumToBuy = (totalPositionValue: number, currentShares: ShareTypes[]) =>
-  currentShares.reduce(
-    (acc, share) => {
-      acc.buy = (totalPositionValue / share.expectedPercentage - share.total) / share.price
-      return acc
-    },
-    { buy: 0 }
-  )
+  currentShares.map(share => {
+    share.total = share.price * share.numShares
+    share.realPercentage = (share.total / (totalPositionValue || 1)) * 100
+    share.buy = Math.floor((totalPositionValue / share.expectedPercentage - share.total) / share.price)
+    return share
+  })
 
 export const formatShares = (shares: ShareTypes[]) =>
   shares.reduce((keyedShares, share) => {

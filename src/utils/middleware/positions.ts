@@ -14,30 +14,14 @@ import {
   calculateCashRemaining,
   calculateShareValues
 } from 'utils/calculateValues'
-import { userSelector } from 'utils/selectors'
-
-// case ADD_POSITION.SUCCESS:
-//   return state
-//     .setIn(['isFetchingPositions'], false)
-//     .deleteIn(['positionsError'])
-//     .setIn(['shares', payload.id], payload)
-// case UPDATE_POSITION.SUCCESS:
-//   return state
-//     .setIn(['isFetchingPositions'], false)
-//     .deleteIn(['positionsError'])
-//     .mergeDeepIn(['shares', payload.id], payload)
-// case DELETE_POSITION.SUCCESS:
-//   return state
-//     .setIn(['isFetchingPositions'], false)
-//     .deleteIn(['positionsError'])
-//     .deleteIn(['shares', payload.id])
+import { userSelector, sharesSelector, totalsSelector } from 'utils/selectors'
 
 function* getPositions() {
   try {
     const { uid } = yield select(userSelector)
-    const shares = yield call(rsf.database.read, `users/${uid}/positions`)
-    const totals = yield call(rsf.database.read, `users/${uid}/totals`)
-    yield put({ type: GET_POSITIONS.SUCCESS, payload: { shares, totals } })
+    const shares = yield call(rsf.database.read, `users/${uid}/positions`) || []
+    const totals = yield call(rsf.database.read, `users/${uid}/totals`) || {}
+    yield put({ type: GET_POSITIONS.SUCCESS, payload: { shares: shares.filter(Boolean), totals } })
   } catch ({ message }) {
     yield put({ type: GET_POSITIONS.FAILURE, payload: { error: message } })
   }
@@ -46,39 +30,51 @@ function* getPositions() {
 function* addPosition(action: PositionsActionsTypes) {
   const { payload } = action
   const share = createData(payload)
-  const shares = yield select(state => state.getIn(['positions', 'shares']))
-  const updatedShares = shares.setIn([share.id], share)
-  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { shares: updatedShares } })
+  const shares = yield select(sharesSelector)
+  shares.push(share)
+  console.log('----------')
+  console.log('addPosition shares', shares)
+  console.log('^^^^^^^^^^')
+  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { shares } })
 }
 
 function* updatePosition(action: PositionsActionsTypes) {
   const { payload } = action
   const share = { ...payload }
-  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { share } })
+  const shares = yield select(sharesSelector)
+  const indexToUpdate = shares.findIndex(({ id }: { id: string }) => id === share.id)
+  shares[indexToUpdate] = share
+  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { shares } })
 }
+
 
 function* deletePosition(action: PositionsActionsTypes) {
   const { payload: share } = action
-  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { share } })
+  const shares = yield select(sharesSelector)
+  const updatedShares = shares.filter(({ id }: { id: string }) => id !== share.id)
+  yield put({ type: UPDATE_TOTALS.REQUEST, payload: { shares: updatedShares } })
 }
 
 function* updateTotals(action: PositionsActionsTypes) {
   try {
     const { payload: { totals = {}, shares = {} } = {} } = action
     console.log('----------')
-    console.log({totals, shares})
+    console.log('updateTotals shares', shares)
+    const [first] = shares
+    console.log(first)
     console.log('^^^^^^^^^^')
+    const currentTotals = yield select(totalsSelector)
+    const updatedTotals = { ...currentTotals, ...totals }
     const { totalPositionValue, totalPercentage } = calculateTotals(shares)
-    const cashRemaining = calculateCashRemaining(totalPositionValue, totals.cash)
-    const { total, realPercentage } = calculateShareValues(shares, totalPositionValue)
+    const cashRemaining = calculateCashRemaining(totalPositionValue, updatedTotals.totalCash)
+    const newShares = calculateShareValues(shares, totalPositionValue)
 
-    const newShares = { ...shares, total, realPercentage }
-    const newTotals = { ...totals, totalPositionValue, totalPercentage, cashRemaining }
+    const newTotals = { ...updatedTotals, totalPositionValue, totalPercentage, cashRemaining }
 
     const { uid } = yield select(userSelector)
     yield call(rsf.database.update, `users/${uid}/positions`, newShares)
     yield call(rsf.database.update, `users/${uid}/totals`, newTotals)
-    yield put({ type: UPDATE_TOTALS.SUCCESS, payload: { totals: newTotals, newShares } })
+    yield put({ type: UPDATE_TOTALS.SUCCESS, payload: { totals: newTotals, shares: newShares } })
   } catch ({ message }) {
     yield put({ type: UPDATE_TOTALS.FAILURE, payload: { error: message } })
   }

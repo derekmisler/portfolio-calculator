@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable'
+import { fromJS, Map, List } from 'immutable'
 import {
   GET_POSITIONS,
   ADD_POSITION,
@@ -48,7 +48,7 @@ const defaultState: StateTypes = fromJS({
     availableCash: 0,
     totalPercentage: 100
   }),
-  shares: Map({})
+  shares: List([])
 })
 
 export const positionsReducer = (
@@ -71,7 +71,7 @@ export const positionsReducer = (
           .deleteIn(['positionsError'])
           .mergeDeepIn(['shares'], payload.shares)
           .mergeDeepIn(['totals'], payload.totals)
-        })
+      })
     case UPDATE_TOTALS.SUCCESS:
       return state.withMutations(map => {
         map
@@ -79,13 +79,11 @@ export const positionsReducer = (
           .deleteIn(['positionsError'])
           .mergeDeepIn(['shares'], payload.shares)
           .mergeDeepIn(['totals'], payload.totals)
-        })
+      })
     case GET_POSITIONS.FAILURE:
     case UPDATE_TOTALS.FAILURE:
       return state.withMutations(map => {
-        map
-          .setIn(['isFetchingPositions'], false)
-          .setIn(['positionsError'], payload.error)
+        map.setIn(['isFetchingPositions'], false).setIn(['positionsError'], payload.error)
       })
     default:
       return state

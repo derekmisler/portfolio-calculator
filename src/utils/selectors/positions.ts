@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { StateTypes as PositionTypes, ShareTypes, SharesTypes, TotalsTypes } from 'utils/reducers/positions'
+import { StateTypes as PositionTypes, ShareTypes, TotalsTypes } from 'utils/reducers/positions'
 
 export const positionsSelector = createSelector(
   (state: PositionTypes) => state.getIn(['positions']),
@@ -7,14 +7,11 @@ export const positionsSelector = createSelector(
 )
 
 export const sharesSelector = createSelector(
-  (state: PositionTypes) => state.getIn(['positions', 'shares']),
-  (substate): ShareTypes[] => {
-    const jsShares = substate.toJS()
-    return Object.values(jsShares)
-  }
+  positionsSelector,
+  (substate): ShareTypes[] => (substate.shares || []).filter(Boolean)
 )
 
 export const totalsSelector = createSelector(
-  (state: PositionTypes) => state.getIn(['positions', 'totals']),
-  (substate): TotalsTypes => substate.toJS()
+  positionsSelector,
+  (substate): TotalsTypes => substate.totals
 )

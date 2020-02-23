@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import debounce from 'lodash/debounce'
-import { Input } from 'molecules/Forms'
+import { Input, Form } from 'molecules/Forms'
 import { Row, Column } from 'atoms/Grid'
 import { Text } from 'atoms/Typography'
 import { ShareTypes } from 'utils/reducers/positions'
@@ -15,7 +15,12 @@ import { Button } from 'atoms/Buttons'
 interface BodyProps {
   share: ShareTypes
 }
-interface FormValuesTypes {}
+interface FormValuesTypes {
+  abbr: string
+  numShares: number
+  price: number
+  expectedPercentage: number
+}
 
 export const DataRow: SFC<BodyProps> = memo(({ share: s }) => {
   const dispatch = useDispatch()
@@ -34,7 +39,9 @@ export const DataRow: SFC<BodyProps> = memo(({ share: s }) => {
   })
 
   const handleChange = debounce((values: FormValuesTypes) => {
-    dispatch(updatePosition({ ...values, id: s.id }))
+    dispatch(
+      updatePosition({ ...values, price: String(values.price).replace(/\D/g, ''), id: s.id })
+    )
   }, 1000)
 
   const handleDeleteClick = () => dispatch(deletePosition(s.id))
@@ -47,32 +54,34 @@ export const DataRow: SFC<BodyProps> = memo(({ share: s }) => {
       onSubmit={handleChange}
     >
       {() => (
-        <Row as='form' gridTemplateColumns='repeat(8, 1fr)'>
-          <Column>
-            <Input name='abbr' handleChange={handleChange} />
-          </Column>
-          <Column>
-            <Input textAlign='right' name='numShares' handleChange={handleChange} />
-          </Column>
-          <Column>
-            <Input type='currency' textAlign='right' name='price' handleChange={handleChange} />
-          </Column>
-          <Text textAlign='right'>{formatCurrency(s.total)}</Text>
-          <Column>
-            <Input textAlign='right' name='expectedPercentage' handleChange={handleChange} />
-          </Column>
-          <Column>
-            <Text textAlign='right'>{formatPercentage(s.realPercentage)}</Text>
-          </Column>
-          <Column>
-            <Text textAlign='right'>{s.buy || 0}</Text>
-          </Column>
-          <Column>
-            <Button type='button' variant='action' onClick={handleDeleteClick}>
-              <CloseRoundedIcon />
-            </Button>
-          </Column>
-        </Row>
+        <Form>
+          <Row gridTemplateColumns='repeat(8, 1fr)'>
+            <Column>
+              <Input name='abbr' handleChange={handleChange} />
+            </Column>
+            <Column>
+              <Input textAlign='right' name='numShares' handleChange={handleChange} />
+            </Column>
+            <Column>
+              <Input type='currency' textAlign='right' name='price' handleChange={handleChange} />
+            </Column>
+            <Text textAlign='right'>{formatCurrency(s.total)}</Text>
+            <Column>
+              <Input textAlign='right' name='expectedPercentage' handleChange={handleChange} />
+            </Column>
+            <Column>
+              <Text textAlign='right'>{formatPercentage(s.realPercentage)}</Text>
+            </Column>
+            <Column>
+              <Text textAlign='right'>{s.buy || 0}</Text>
+            </Column>
+            <Column>
+              <Button type='button' variant='action' onClick={handleDeleteClick}>
+                <CloseRoundedIcon />
+              </Button>
+            </Column>
+          </Row>
+        </Form>
       )}
     </Formik>
   )
