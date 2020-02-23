@@ -1,4 +1,4 @@
-import { all, call, select, takeEvery, put, takeLatest } from 'redux-saga/effects'
+import { all, call, select, takeEvery, put } from 'redux-saga/effects'
 import rsf from 'utils/configureFirebase'
 import {
   UPDATE_TOTALS,
@@ -8,9 +8,13 @@ import {
   DELETE_POSITION,
   PositionsActionsTypes
 } from 'utils/actions/positions'
-import { createData } from 'utils/createData'
+import {
+  createData,
+  calculateTotals,
+  calculateCashRemaining,
+  calculateShareValues
+} from 'utils/calculateValues'
 import { userSelector } from 'utils/selectors'
-import { calculateTotalsSelector, calculateShareValuesSelector } from 'utils/selectors'
 
 // case ADD_POSITION.SUCCESS:
 //   return state
@@ -61,8 +65,12 @@ function* deletePosition(action: PositionsActionsTypes) {
 function* updateTotals(action: PositionsActionsTypes) {
   try {
     const { payload: { totals = {}, shares = {} } = {} } = action
-    const newTotals = calculateTotalsSelector(totals, shares)
-    const newShares = calculateShareValuesSelector(shares, totals.totalPositionValue)
+    const { totalPositionValue, totalPercentage } = calculateTotals(shares)
+    const cashRemaining = calculateCashRemaining(totalPositionValue, totals.cash)
+    const { total, realPercentage } = calculateShareValues(shares, totalPositionValue)
+
+    const newShares = { ...shares, total, realPercentage }
+    const newTotals = { ...totals, totalPositionValue, totalPercentage, cashRemaining }
 
     const { uid } = yield select(userSelector)
     yield call(rsf.database.update, `users/${uid}/positions`, newShares)

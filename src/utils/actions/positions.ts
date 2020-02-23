@@ -1,4 +1,5 @@
 import { createActions } from 'utils/createActions'
+import { SharesTypes, TotalsTypes } from 'utils/reducers/positions'
 
 export const GET_POSITIONS = createActions('GET_POSITIONS')
 export const UPDATE_TOTALS = createActions('UPDATE_TOTALS')
@@ -27,7 +28,7 @@ export interface PositionsActionsTypes {
     | UpdatePositionActions
     | DeletePositionActions
     | UpdateTotalsActions
-  payload: any
+  payload: any | { total: TotalsTypes, shares: SharesTypes }
 }
 
 export const getPositions = () => ({
