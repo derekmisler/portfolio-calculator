@@ -14,7 +14,7 @@ interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   label?: string
   id?: string
   name: string
-  ref?: (inputElement: HTMLElement) => void
+  ref?: any
   type?: string | 'text'
   autoFocus?: boolean
   currency?: boolean
@@ -78,7 +78,7 @@ export const Input: SFC<InputProps> = memo(
           </Text>
         )}
         { isCurrency
-          ? <MaskedInput mask={CURRENCY_MASK} render={innerRef => <StyledInput {...inputProps} ref={innerRef} />} />
+          ? <MaskedInput mask={CURRENCY_MASK} render={innerRef => <StyledInput {...inputProps} ref={innerRef as any} />} />
           : <StyledInput {...inputProps} />
         }
       </>
