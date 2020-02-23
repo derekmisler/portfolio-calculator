@@ -3,6 +3,7 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import debounce from 'lodash/debounce'
 import { Input } from 'molecules/Forms'
 import { Row, Column } from 'atoms/Grid'
 import { Text } from 'atoms/Typography'
@@ -32,10 +33,12 @@ export const DataRow: SFC<BodyProps> = memo(({ share: s }) => {
     expectedPercentage: Yup.number().required('Required')
   })
 
-  const handleChange = (values: FormValuesTypes) => {
+  const handleChange = debounce((values: FormValuesTypes) => {
     dispatch(updatePosition({ ...values, id: s.id }))
-  }
+  }, 1000)
+
   const handleDeleteClick = () => dispatch(deletePosition(s.id))
+
   return (
     <Formik
       enableReinitialize
@@ -52,7 +55,7 @@ export const DataRow: SFC<BodyProps> = memo(({ share: s }) => {
             <Input textAlign='right' name='numShares' handleChange={handleChange} />
           </Column>
           <Column>
-            <Input textAlign='right' name='price' handleChange={handleChange} />
+            <Input type='currency' textAlign='right' name='price' handleChange={handleChange} />
           </Column>
           <Text textAlign='right'>{formatCurrency(s.total)}</Text>
           <Column>

@@ -2,9 +2,9 @@ import React, { SFC, memo } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
+import debounce from 'lodash/debounce'
 import { Input } from 'molecules/Forms'
 import { Row, Column } from 'atoms/Grid'
-import debounce from 'lodash/debounce'
 import { Text } from 'atoms/Typography'
 import { TotalsTypes } from 'utils/reducers/positions'
 import { formatCurrency, formatPercentage } from 'utils/format'
@@ -30,9 +30,6 @@ export const DataFoot: SFC<FootProps> = memo(({ totals }) => {
 
   const handleChange = debounce(async (values: FormValuesTypes) => {
     const valid = await validationSchema.isValid(values)
-    console.log('----------')
-    console.log('valid', valid)
-    console.log('^^^^^^^^^^')
     if (valid) dispatch(updateTotals(values))
   }, 1000)
 

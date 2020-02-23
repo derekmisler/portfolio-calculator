@@ -3,8 +3,8 @@ import { useField } from 'formik'
 import styled from 'styled-components'
 import { typography, TypographyProps, space, SpaceProps, border, BorderProps } from 'styled-system'
 import { Text, Span, Alert } from 'atoms/Typography'
-import { INPUT_TYPES } from 'constants/inputTypes'
-import { CurrencyInput } from './CurrencyInput'
+import { INPUT_TYPES, CURRENCY_MASK } from 'constants/inputTypes'
+import MaskedInput from 'react-text-mask'
 
 interface StyledInputProps extends SpaceProps, BorderProps, TypographyProps {
   isCurrency?: boolean
@@ -14,6 +14,7 @@ interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   label?: string
   id?: string
   name: string
+  ref?: (inputElement: HTMLElement) => void
   type?: string | 'text'
   autoFocus?: boolean
   currency?: boolean
@@ -41,7 +42,7 @@ const StyledInput = styled.input.attrs<StyledInputProps>(({  }) => ({
 `
 
 export const Input: SFC<InputProps> = memo(
-  ({ ref: innerRef, as, label, autoFocus, handleChange, type, ...props }) => {
+  ({ ref: falseRef, as, label, autoFocus, handleChange, type, ...props }) => {
     const [field, meta] = useField(props)
     const invalid = !!(meta.touched && meta.error)
     const ref: RefObject<HTMLInputElement> = useRef(null)
@@ -61,6 +62,7 @@ export const Input: SFC<InputProps> = memo(
       ...field,
       ...props,
       id: props.id || props.name,
+      ref,
       type,
       onChange,
       isCurrency,
@@ -76,7 +78,7 @@ export const Input: SFC<InputProps> = memo(
           </Text>
         )}
         { isCurrency
-          ? <CurrencyInput render={() => <StyledInput {...inputProps} />} />
+          ? <MaskedInput mask={CURRENCY_MASK} render={innerRef => <StyledInput {...inputProps} ref={innerRef} />} />
           : <StyledInput {...inputProps} />
         }
       </>
