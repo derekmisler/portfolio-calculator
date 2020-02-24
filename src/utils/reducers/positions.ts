@@ -40,6 +40,7 @@ export interface StateTypes extends Map<any, any> {
 
 const defaultState: StateTypes = fromJS({
   isFetchingPositions: false,
+  isUpdatingPositions: false,
   positionsError: undefined,
   totals: Map({
     costToBuy: 0,
@@ -58,32 +59,33 @@ export const positionsReducer = (
   if (!action) return state
   const { type, payload } = action
   switch (type) {
-    case UPDATE_TOTALS.REQUEST:
     case GET_POSITIONS.REQUEST:
-    case ADD_POSITION:
-    case UPDATE_POSITION:
-    case DELETE_POSITION:
       return state.setIn(['isFetchingPositions'], true)
     case GET_POSITIONS.SUCCESS:
       return state.withMutations(map => {
         map
           .setIn(['isFetchingPositions'], false)
           .deleteIn(['positionsError'])
-          .mergeDeepIn(['shares'], payload.shares)
-          .mergeDeepIn(['totals'], payload.totals)
+          .setIn(['shares'], payload.shares)
+          .setIn(['totals'], payload.totals)
       })
+    case GET_POSITIONS.FAILURE:
+      return state.withMutations(map => {
+        map.setIn(['isFetchingPositions'], false).setIn(['positionsError'], payload.error)
+      })
+    case UPDATE_TOTALS.REQUEST:
+      return state.setIn(['isUpdatingPositions'], true)
     case UPDATE_TOTALS.SUCCESS:
       return state.withMutations(map => {
         map
-          .setIn(['isFetchingPositions'], false)
+          .setIn(['isUpdatingPositions'], false)
           .deleteIn(['positionsError'])
-          .mergeDeepIn(['shares'], payload.shares)
-          .mergeDeepIn(['totals'], payload.totals)
+          .setIn(['shares'], payload.shares)
+          .setIn(['totals'], payload.totals)
       })
-    case GET_POSITIONS.FAILURE:
     case UPDATE_TOTALS.FAILURE:
       return state.withMutations(map => {
-        map.setIn(['isFetchingPositions'], false).setIn(['positionsError'], payload.error)
+        map.setIn(['isUpdatingPositions'], false).setIn(['positionsError'], payload.error)
       })
     default:
       return state

@@ -78,7 +78,7 @@ export const Input: SFC<InputProps> = memo(
           </Text>
         )}
         { isCurrency
-          ? <MaskedInput mask={CURRENCY_MASK} render={innerRef => <StyledInput {...inputProps} ref={innerRef as any} />} />
+          ? <MaskedInput mask={CURRENCY_MASK} showMask={false} render={innerRef => <StyledInput {...inputProps} ref={innerRef as any} />} />
           : <StyledInput {...inputProps} />
         }
       </>

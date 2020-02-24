@@ -13,5 +13,5 @@ const StyledRow = styled.div<RowProps>`
 `
 
 export const Row: SFC<RowProps> = memo(({ as, ...rest }) => (
-  <StyledRow {...rest} as={as} gridColumnGap={3} gridRowGap={3} />
+  <StyledRow {...rest} as={as} gridColumnGap={3} />
 ))

@@ -47,42 +47,31 @@ export const DataRow: SFC<BodyProps> = memo(({ share: s }) => {
   const handleDeleteClick = () => dispatch(deletePosition(s.id))
 
   return (
-    <Formik
-      enableReinitialize
-      validationSchema={validationSchema}
-      initialValues={initialValues}
-      onSubmit={handleChange}
-    >
-      {() => (
-        <Form>
-          <Row gridTemplateColumns='repeat(8, 1fr)'>
-            <Column>
-              <Input name='abbr' handleChange={handleChange} />
-            </Column>
-            <Column>
-              <Input textAlign='right' name='numShares' handleChange={handleChange} />
-            </Column>
-            <Column>
-              <Input type='currency' textAlign='right' name='price' handleChange={handleChange} />
-            </Column>
-            <Text textAlign='right'>{formatCurrency(s.total)}</Text>
-            <Column>
-              <Input textAlign='right' name='expectedPercentage' handleChange={handleChange} />
-            </Column>
-            <Column>
-              <Text textAlign='right'>{formatPercentage(s.realPercentage)}</Text>
-            </Column>
-            <Column>
-              <Text textAlign='right'>{s.buy || 0}</Text>
-            </Column>
-            <Column>
-              <Button type='button' variant='action' onClick={handleDeleteClick}>
-                <CloseRoundedIcon />
-              </Button>
-            </Column>
-          </Row>
-        </Form>
-      )}
-    </Formik>
+    <>
+      <Column>
+        <Input name='abbr' handleChange={handleChange} />
+      </Column>
+      <Column>
+        <Input textAlign='right' name='numShares' handleChange={handleChange} />
+      </Column>
+      <Column>
+        <Input type='currency' textAlign='right' name='price' handleChange={handleChange} />
+      </Column>
+      <Text textAlign='right'>{formatCurrency(s.total)}</Text>
+      <Column>
+        <Input textAlign='right' name='expectedPercentage' handleChange={handleChange} />
+      </Column>
+      <Column>
+        <Text textAlign='right'>{formatPercentage(s.realPercentage)}</Text>
+      </Column>
+      <Column>
+        <Text textAlign='right'>{s.buy || 0}</Text>
+      </Column>
+      <Column>
+        <Button type='button' variant='action' onClick={handleDeleteClick}>
+          <CloseRoundedIcon />
+        </Button>
+      </Column>
+    </>
   )
 })

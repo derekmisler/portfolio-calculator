@@ -1,7 +1,7 @@
 import React, { SFC, memo } from 'react'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { useDispatch } from 'react-redux'
-import { Formik } from 'formik'
+import { Formik, FormikValues } from 'formik'
 import * as Yup from 'yup'
 import { Input, Form } from 'molecules/Forms'
 import { Row, Column } from 'atoms/Grid'
@@ -26,45 +26,56 @@ export const AddPosition: SFC<{}> = memo(() => {
   }
 
   const validationSchema = Yup.object({
-    abbr: Yup.string().required('Required'),
-    numShares: Yup.number().required('Required'),
+    abbr: Yup.string().required('Abbr Required'),
+    numShares: Yup.number()
+      .min(1, '# Too Low')
+      .required('# Required'),
     price: Yup.string()
-      .matches(currencyPattern, 'Invalid currency format')
-      .required('Required'),
-    expectedPercentage: Yup.number().required('Required')
+      .matches(currencyPattern, '$ Invalid')
+      .required('$ Required'),
+    expectedPercentage: Yup.number().required('% Required')
   })
 
-  const handleSubmit = async (values: FormValuesTypes, { resetForm }) => {
+  const handleSubmit = async (values: FormValuesTypes, { resetForm }: FormikValues) => {
     const valid = await validationSchema.isValid(values)
     if (valid) {
-      dispatch(addPosition({ ...values, price: String(values.price).replace(/\D/g, '') }))
+      dispatch(
+        addPosition({
+          ...values,
+          abbr: String(values.abbr).toUpperCase(),
+          price: String(values.price).replace(/\D/g, '')
+        })
+      )
       resetForm()
     }
   }
 
   return (
     <Formik
-      enableReinitialize
       validationSchema={validationSchema}
       initialValues={initialValues}
       onSubmit={handleSubmit}
     >
       {() => (
         <Form>
-          <Row gridTemplateColumns='repeat(8, 1fr)'>
+          <Row
+            gridTemplateColumns={['1fr', 'repeat(2, 2fr) 1fr']}
+            gridTemplateRows={['repeat(5, 1fr)', 'repeat(2, 1fr)']}
+            gridAutoFlow='column'
+          >
             <Column>
-              <Input name='abbr' placeholder='---' />
+              <Input name='abbr' placeholder='---' label='Abbr' />
             </Column>
             <Column>
-              <Input textAlign='right' name='numShares' />
+              <Input textAlign='right' name='numShares' label='#' />
             </Column>
             <Column>
-              <Input type='currency' textAlign='right' name='price' />
+              <Input type='currency' textAlign='right' name='price' label='$' />
             </Column>
-            <Column gridColumn={5}>
-              <Input textAlign='right' name='expectedPercentage' />
+            <Column>
+              <Input textAlign='right' name='expectedPercentage' label='%' />
             </Column>
-            <Column gridColumn={8}>
+            <Column gridRow={['5', '1/3']} gridColumn={[1, 3]} alignContent='center' justifyContent='center'>
               <Button type='submit' variant='action'>
                 <AddRoundedIcon />
               </Button>

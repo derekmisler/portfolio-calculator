@@ -6,6 +6,7 @@ import { StyledComponentProps } from 'styles'
 interface ColumnProps extends StyledComponentProps, SpaceProps, FlexboxProps, GridProps {}
 
 export const Column = styled.div<ColumnProps>`
+  display: grid;
   ${space}
   ${flexbox}
   ${grid}
