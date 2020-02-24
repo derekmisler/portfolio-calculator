@@ -59,7 +59,7 @@ export const DataTable = memo(() => {
               <Form>
                 <Fieldset>
                   <Text as='legend'>Positions:</Text>
-                  <Row gridTemplateColumns='repeat(8, 1fr)'>
+                  <Row gridTemplateColumns='repeat(8, 1fr)' alignItems='center'>
                     <DataHead />
                     {hasShares ? (
                       <FieldArray

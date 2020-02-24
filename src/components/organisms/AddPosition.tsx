@@ -65,6 +65,7 @@ export const AddPosition: SFC<{}> = memo(() => {
               gridTemplateColumns={['100%', 'repeat(8, 1fr)']}
               gridTemplateRows={['repeat(5, 1fr)', 'auto']}
               gridAutoFlow='column'
+              alignItems='center'
             >
               <Column>
                 <Input name='abbr' textAlign={['center', 'left']}  placeholder='---' />
@@ -78,7 +79,7 @@ export const AddPosition: SFC<{}> = memo(() => {
               <Column gridColumn={[null, 5]}>
                 <Input textAlign={['center', 'right']}  name='expectedPercentage' />
               </Column>
-              <Column gridColumn={[null, 8]} alignContent='center' justifyContent='center'>
+              <Column gridColumn={[null, 8]} justifyContent='center'>
                 <Button type='submit' variant='action'>
                   <AddRoundedIcon />
                 </Button>

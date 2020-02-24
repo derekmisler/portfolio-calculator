@@ -41,7 +41,7 @@ export const DataRow: SFC<BodyProps> = memo(({ share: s, index }) => {
       <Column>
         <Text textAlign='right'>{s.buy || 0}</Text>
       </Column>
-      <Column alignContent='center' justifyContent='center'>
+      <Column justifyContent='center'>
         <Button type='button' variant='action' onClick={handleDeleteClick}>
           <CloseRoundedIcon />
         </Button>
