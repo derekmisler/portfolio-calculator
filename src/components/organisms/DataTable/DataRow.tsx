@@ -1,4 +1,4 @@
-import React, { SFC, memo } from 'react'
+import React, { SFC, memo, ChangeEvent } from 'react'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { useDispatch } from 'react-redux'
 import { Input } from 'molecules/Forms'
@@ -12,34 +12,55 @@ import { Button } from 'atoms/Buttons'
 interface BodyProps {
   share: ShareTypes
   index: number
+  onChange: Function
 }
 
-export const DataRow: SFC<BodyProps> = memo(({ share: s, index }) => {
+export const DataRow: SFC<BodyProps> = memo(({ share: s, index, onChange }) => {
   const dispatch = useDispatch()
   const handleDeleteClick = () => dispatch(deletePosition(s.id))
+  const handleChange = (value: { [key: string]: string }) => {
+    if (onChange) onChange(value)
+  }
 
   return (
     <>
       <Column>
-        <Input name={`shares.${index}.abbr`} />
+        <Input
+          onChange={handleChange}
+          textAlign={['center', 'left']}
+          name={`shares.${index}.abbr`}
+        />
       </Column>
       <Column>
-        <Input textAlign='right' name={`shares.${index}.numShares`} />
+        <Input
+          onChange={handleChange}
+          textAlign={['center', 'right']}
+          name={`shares.${index}.numShares`}
+        />
       </Column>
       <Column>
-        <Input type='currency' textAlign='right' name={`shares.${index}.price`} />
+        <Input
+          onChange={handleChange}
+          type='currency'
+          textAlign={['center', 'right']}
+          name={`shares.${index}.price`}
+        />
       </Column>
       <Column>
-        <Text textAlign='right'>{formatCurrency(s.total)}</Text>
+        <Text textAlign={['center', 'right']}>{formatCurrency(s.total)}</Text>
       </Column>
       <Column>
-        <Input textAlign='right' name={`shares.${index}.expectedPercentage`} />
+        <Input
+          onChange={handleChange}
+          textAlign={['center', 'right']}
+          name={`shares.${index}.expectedPercentage`}
+        />
       </Column>
       <Column>
-        <Text textAlign='right'>{formatPercentage(s.realPercentage)}</Text>
+        <Text textAlign={['center', 'right']}>{formatPercentage(s.realPercentage)}</Text>
       </Column>
       <Column>
-        <Text textAlign='right'>{s.buy || 0}</Text>
+        <Text textAlign={['center', 'right']}>{s.buy || 0}</Text>
       </Column>
       <Column justifyContent='center'>
         <Button type='button' variant='action' onClick={handleDeleteClick}>

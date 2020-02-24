@@ -11,7 +11,7 @@ import {
 import {
   createData,
   calculateTotals,
-  calculateCashRemaining,
+  calculateavailableCash,
   calculateShareValues
 } from 'utils/calculateValues'
 import { userSelector, sharesSelector, totalsSelector } from 'utils/selectors'
@@ -58,18 +58,13 @@ function* deletePosition(action: PositionsActionsTypes) {
 function* updateTotals(action: PositionsActionsTypes) {
   try {
     const { payload: { totals = {}, shares = {} } = {} } = action
-    console.log('----------')
-    console.log('updateTotals shares', shares)
-    const [first] = shares
-    console.log(first)
-    console.log('^^^^^^^^^^')
     const currentTotals = yield select(totalsSelector)
     const updatedTotals = { ...currentTotals, ...totals }
     const { totalPositionValue, totalPercentage } = calculateTotals(shares)
-    const cashRemaining = calculateCashRemaining(totalPositionValue, updatedTotals.totalCash)
+    const availableCash = calculateavailableCash(totalPositionValue, updatedTotals.totalCash)
     const newShares = calculateShareValues(shares, totalPositionValue)
 
-    const newTotals = { ...updatedTotals, totalPositionValue, totalPercentage, cashRemaining }
+    const newTotals = { ...updatedTotals, totalPositionValue, totalPercentage, availableCash }
 
     const { uid } = yield select(userSelector)
     yield call(rsf.database.update, `users/${uid}/positions`, newShares)

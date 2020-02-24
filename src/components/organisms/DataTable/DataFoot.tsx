@@ -52,7 +52,7 @@ export const DataFoot: SFC<FootProps> = memo(({ totals }) => {
               <Column gridColumn={1}>
                 <Input
                   textAlign={['center', 'left']}
-                  handleChange={handleChange}
+                  onChange={handleChange}
                   name='totalCash'
                   type='currency'
                 />

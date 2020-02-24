@@ -19,7 +19,7 @@ interface InputProps extends StyledInputProps, HTMLProps<HTMLInputElement> {
   autoFocus?: boolean
   currency?: boolean
   placeholder?: string
-  handleChange?: (v: any) => void
+  onChange?: (v: any) => void
 }
 const StyledInput = styled.input.attrs<StyledInputProps>(({  }) => ({
 }))<StyledInputProps>`
@@ -42,20 +42,24 @@ const StyledInput = styled.input.attrs<StyledInputProps>(({  }) => ({
 `
 
 export const Input: SFC<InputProps> = memo(
-  ({ ref: falseRef, as, label, autoFocus, handleChange, type, ...props }) => {
+  ({ ref: falseRef, as, label, autoFocus, onChange, type, ...props }) => {
     const [field, meta] = useField(props)
     const invalid = !!(meta.touched && meta.error)
     const ref: RefObject<HTMLInputElement> = useRef(null)
     const isCurrency = type === INPUT_TYPES.currency
+    const isNumber = type === INPUT_TYPES.isNumber
 
     useEffect(() => {
       if (autoFocus) ref?.current?.focus()
     }, [])
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       field.onChange(e)
       const { value, name } = e?.target || {}
-      if (handleChange) handleChange({ [name]: value })
+      const newValue = isCurrency || isNumber
+        ? value.replace(/\D/g, '')
+        : value
+      if (onChange) onChange({ [name]: newValue })
     }
 
     const inputProps = {
@@ -64,7 +68,7 @@ export const Input: SFC<InputProps> = memo(
       id: props.id || props.name,
       ref,
       type,
-      onChange,
+      onChange: handleChange,
       isCurrency,
       borderBottomWidth: 1,
       borderBottomColor: invalid ? 'error' : 'border'

@@ -23,14 +23,14 @@ export const createData = ({
 export const calculateTotals = (currentShares: ShareTypes[]) =>
   currentShares.reduce(
     (acc, share: ShareTypes) => {
-      acc.totalPercentage += share.expectedPercentage
-      acc.totalPositionValue += share.total
+      acc.totalPercentage += Number(share.expectedPercentage)
+      acc.totalPositionValue += Number(share.total)
       return acc
     },
     { totalPercentage: 0, totalPositionValue: 0 }
   )
 
-export const calculateCashRemaining = (totalPositionValue: number, totalCash: number) =>
+export const calculateavailableCash = (totalPositionValue: number, totalCash: number) =>
   totalCash - totalPositionValue
 
 export const calculateShareValues = (currentShares: ShareTypes[], totalPositionValue: number) =>

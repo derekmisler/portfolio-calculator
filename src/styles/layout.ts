@@ -13,8 +13,8 @@ export interface DesktopMobile {
   mobile: string
 }
 
-export interface StyledComponentProps extends HTMLProps<HTMLDivElement> {
-  as?: any
+export interface StyledComponentProps {
+  as?: string
   ref?: any
 }
 

@@ -37,6 +37,12 @@ export const DataTable = memo(() => {
     expectedPercentage: number().required('% Required')
   })
 
+  const handleChange = debounce((value: { [key: string]: string }) => {
+    const [, index, name] = Object.keys(value)[0].split('.')
+    const newValue = { ...shares[Number(index)], [name]: Object.values(value)[0] }
+    dispatch(updatePosition(newValue))
+  }, 1000)
+
   const handleSubmit = async (values: { shares: ShareTypes[] }) => {
     const valid = await validationSchema.isValid(values)
     console.log('----------')
@@ -65,7 +71,9 @@ export const DataTable = memo(() => {
                       <FieldArray
                         name='shares'
                         render={() =>
-                          shares.map((s, i) => <DataRow key={s.id} share={s} index={i} />)
+                          shares.map((s, i) => (
+                            <DataRow onChange={handleChange} key={s.id} share={s} index={i} />
+                          ))
                         }
                       />
                     ) : (
