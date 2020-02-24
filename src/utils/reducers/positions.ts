@@ -1,44 +1,13 @@
 import { fromJS, Map, List } from 'immutable'
 import {
   GET_POSITIONS,
-  ADD_POSITION,
-  UPDATE_POSITION,
-  DELETE_POSITION,
   UPDATE_TOTALS,
   PositionsActionsTypes
 } from 'utils/actions/positions'
+import { PositionStateTypes } from 'types/positions'
 
-export interface ShareTypes {
-  id: string
-  abbr: string
-  numShares: number
-  price: number
-  total: number
-  expectedPercentage: number
-  realPercentage: number
-  buy: number
-}
 
-export interface SharesTypes {
-  [id: string]: ShareTypes
-}
-
-export interface TotalsTypes {
-  costToBuy: number
-  totalCash: number
-  totalPositionValue: number
-  totalPercentage: number
-  availableCash: number
-}
-
-export interface StateTypes extends Map<any, any> {
-  isFetchingPositions: boolean
-  positionsError: string
-  totals: TotalsTypes
-  shares: SharesTypes
-}
-
-const defaultState: StateTypes = fromJS({
+const defaultState: PositionStateTypes = fromJS({
   isFetchingPositions: false,
   isUpdatingPositions: false,
   positionsError: undefined,
@@ -55,7 +24,7 @@ const defaultState: StateTypes = fromJS({
 export const positionsReducer = (
   state = defaultState,
   action: PositionsActionsTypes
-): StateTypes => {
+): PositionStateTypes => {
   if (!action) return state
   const { type, payload } = action
   switch (type) {

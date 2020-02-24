@@ -1,5 +1,5 @@
 import { createActions } from 'utils/createActions'
-import { SharesTypes, TotalsTypes } from 'utils/reducers/positions'
+import { TotalsTypes, SharesTypes } from 'types/positions'
 
 export const GET_POSITIONS = createActions('GET_POSITIONS')
 export const UPDATE_TOTALS = createActions('UPDATE_TOTALS')

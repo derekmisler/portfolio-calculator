@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4'
-import { ShareTypes, SharesTypes } from 'utils/reducers/positions'
+import { ShareTypes, SharesTypes } from 'types/positions'
 
 export const createData = ({
   abbr,

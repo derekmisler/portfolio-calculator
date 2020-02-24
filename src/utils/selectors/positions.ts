@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect'
-import { StateTypes as PositionTypes, ShareTypes, TotalsTypes } from 'utils/reducers/positions'
+
+import { PositionStateTypes, TotalsTypes, ShareTypes } from 'types/positions'
 
 export const positionsSelector = createSelector(
-  (state: PositionTypes) => state.getIn(['positions']),
+  (state: PositionStateTypes) => state.getIn(['positions']),
   substate => substate.toJS()
 )
 

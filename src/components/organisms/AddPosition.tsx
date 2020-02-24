@@ -3,7 +3,8 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { useDispatch } from 'react-redux'
 import { Formik, FormikValues } from 'formik'
 import * as Yup from 'yup'
-import { Input, Form } from 'molecules/Forms'
+import { Input, Form, Fieldset } from 'molecules/Forms'
+import { Text } from 'atoms/Typography'
 import { Row, Column } from 'atoms/Grid'
 import { addPosition } from 'utils/actions/positions'
 import { Button } from 'atoms/Buttons'
@@ -58,29 +59,32 @@ export const AddPosition: SFC<{}> = memo(() => {
     >
       {() => (
         <Form>
-          <Row
-            gridTemplateColumns={['1fr', 'repeat(2, 2fr) 1fr']}
-            gridTemplateRows={['repeat(5, 1fr)', 'repeat(2, 1fr)']}
-            gridAutoFlow='column'
-          >
-            <Column>
-              <Input name='abbr' placeholder='---' label='Abbr' />
-            </Column>
-            <Column>
-              <Input textAlign='right' name='numShares' label='#' />
-            </Column>
-            <Column>
-              <Input type='currency' textAlign='right' name='price' label='$' />
-            </Column>
-            <Column>
-              <Input textAlign='right' name='expectedPercentage' label='%' />
-            </Column>
-            <Column gridRow={['5', '1/3']} gridColumn={[1, 3]} alignContent='center' justifyContent='center'>
-              <Button type='submit' variant='action'>
-                <AddRoundedIcon />
-              </Button>
-            </Column>
-          </Row>
+          <Fieldset>
+            <Text as='legend'>Add Position:</Text>
+            <Row
+              gridTemplateColumns={['100%', 'repeat(8, 1fr)']}
+              gridTemplateRows={['repeat(5, 1fr)', 'auto']}
+              gridAutoFlow='column'
+            >
+              <Column>
+                <Input name='abbr' textAlign={['center', 'left']}  placeholder='---' />
+              </Column>
+              <Column>
+                <Input textAlign={['center', 'right']} name='numShares' />
+              </Column>
+              <Column>
+                <Input type='currency' textAlign={['center', 'right']}  name='price' />
+              </Column>
+              <Column gridColumn={[null, 5]}>
+                <Input textAlign={['center', 'right']}  name='expectedPercentage' />
+              </Column>
+              <Column gridColumn={[null, 8]} alignContent='center' justifyContent='center'>
+                <Button type='submit' variant='action'>
+                  <AddRoundedIcon />
+                </Button>
+              </Column>
+            </Row>
+          </Fieldset>
         </Form>
       )}
     </Formik>
