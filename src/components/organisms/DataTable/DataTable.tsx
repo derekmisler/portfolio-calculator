@@ -37,9 +37,10 @@ export const DataTable = memo(() => {
     expectedPercentage: number().required('% Required')
   })
 
-  const handleChange = debounce((value: { [key: string]: string }) => {
-    const [, index, name] = Object.keys(value)[0].split('.')
-    const newValue = { ...shares[Number(index)], [name]: Object.values(value)[0] }
+  const handleChange = debounce((inputValue: { [key: string]: string }) => {
+    const [[key, value]] = Object.entries(inputValue)
+    const [, index, name] = key.split('.')
+    const newValue = { ...shares[Number(index)], [name]: value }
     dispatch(updatePosition(newValue))
   }, 1000)
 
