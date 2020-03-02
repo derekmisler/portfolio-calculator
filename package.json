@@ -24,7 +24,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "rm -rf yarn.lock && gatsby clean && yarn install",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "test": "jest",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch"
   },
@@ -79,11 +79,16 @@
     "@types/typography": "^0.16.3",
     "@types/uuid": "^3.4.7",
     "@types/yup": "^0.26.30",
+    "babel-jest": "^25.1.0",
     "babel-plugin-styled-components": "^1.10.7",
+    "babel-preset-gatsby": "^0.2.29",
     "dotenv": "^8.2.0",
     "gatsby-plugin-root-import": "^2.0.5",
     "gatsby-plugin-styled-components": "^3.1.19",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^25.1.0",
     "prettier": "^1.19.1",
+    "react-test-renderer": "^16.13.0",
     "redux-devtools-extension": "^2.13.8"
   }
 }

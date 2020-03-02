@@ -12,7 +12,7 @@ import { Form, Fieldset } from 'molecules/Forms'
 import { DataHead } from './DataHead'
 import { DataRow } from './DataRow'
 import { AddPosition } from '../AddPosition'
-import { DataFoot } from './DataFoot'
+import { Totals } from '../Totals'
 import { currencyPattern } from 'utils/validate'
 import { updatePosition } from 'utils/actions/positions'
 import { ShareTypes } from 'types/positions'
@@ -46,10 +46,7 @@ export const DataTable = memo(() => {
 
   const handleSubmit = async (values: { shares: ShareTypes[] }) => {
     const valid = await validationSchema.isValid(values)
-    console.log('----------')
-    console.log('values', values)
-    console.log('^^^^^^^^^^')
-    // if (valid) dispatch(updatePosition(values))
+    if (valid) dispatch(updatePosition(values))
   }
 
   return (
@@ -89,8 +86,8 @@ export const DataTable = memo(() => {
               </Form>
             )}
           </Formik>
+          <Totals totals={totals} />
           <AddPosition />
-          <DataFoot totals={totals} />
         </>
       )}
     </Container>

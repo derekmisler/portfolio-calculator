@@ -11,21 +11,19 @@ import { formatCurrency, formatPercentage } from 'utils/format'
 import { currencyPattern } from 'utils/validate'
 import { updateTotals } from 'utils/actions/positions'
 
-interface FootProps {
+interface TotalsProps {
   totals: TotalsTypes
 }
 
 interface FormValuesTypes {
   totalCash: number
 }
-export const DataFoot: SFC<FootProps> = memo(({ totals }) => {
+export const Totals: SFC<TotalsProps> = memo(({ totals = { totalCash: 0 } }) => {
   const dispatch = useDispatch()
   const initialValues: FormValuesTypes = { totalCash: totals.totalCash }
 
   const validationSchema = Yup.object({
-    totalCash: Yup.string()
-      .matches(currencyPattern, 'Invalid currency format')
-      .required('Required')
+    totalCash: Yup.string().required('Required')
   })
 
   const handleChange = debounce(async (values: FormValuesTypes) => {
@@ -41,7 +39,7 @@ export const DataFoot: SFC<FootProps> = memo(({ totals }) => {
       onSubmit={handleChange}
     >
       {() => (
-        <Form>
+        <Form py={3}>
           <Fieldset>
             <Text as='legend'>Totals:</Text>
             <Row

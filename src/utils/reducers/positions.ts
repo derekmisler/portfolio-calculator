@@ -31,12 +31,15 @@ export const positionsReducer = (
     case GET_POSITIONS.REQUEST:
       return state.setIn(['isFetchingPositions'], true)
     case GET_POSITIONS.SUCCESS:
+      console.log('----------')
+      console.log('payload', payload)
+      console.log('^^^^^^^^^^')
       return state.withMutations(map => {
         map
           .setIn(['isFetchingPositions'], false)
           .deleteIn(['positionsError'])
-          .setIn(['shares'], payload.shares)
           .setIn(['totals'], payload.totals)
+          .setIn(['shares'], payload.shares)
       })
     case GET_POSITIONS.FAILURE:
       return state.withMutations(map => {

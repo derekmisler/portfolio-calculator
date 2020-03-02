@@ -32,7 +32,6 @@ export const AddPosition: SFC<{}> = memo(() => {
       .min(1, '# Too Low')
       .required('# Required'),
     price: Yup.string()
-      .matches(currencyPattern, '$ Invalid')
       .required('$ Required'),
     expectedPercentage: Yup.number().required('% Required')
   })
@@ -58,7 +57,7 @@ export const AddPosition: SFC<{}> = memo(() => {
       onSubmit={handleSubmit}
     >
       {() => (
-        <Form>
+        <Form py={3}>
           <Fieldset>
             <Text as='legend'>Add Position:</Text>
             <Row

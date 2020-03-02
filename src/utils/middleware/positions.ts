@@ -17,11 +17,17 @@ import {
 import { userSelector, sharesSelector, totalsSelector } from 'utils/selectors'
 
 function* getPositions() {
+  const { uid } = yield select(userSelector)
   try {
-    const { uid } = yield select(userSelector)
-    const shares = yield call(rsf.database.read, `users/${uid}/positions`) || []
-    const totals = yield call(rsf.database.read, `users/${uid}/totals`) || {}
-    yield put({ type: GET_POSITIONS.SUCCESS, payload: { shares: shares.filter(Boolean), totals } })
+    const { shares, totals } = yield call(rsf.database.read, `users/${uid}`)
+    console.log('----------')
+    console.log('{shares, totals}', {shares, totals})
+    console.log('^^^^^^^^^^')
+    const positions = {
+      shares: (shares || []).filter(Boolean),
+      totals
+    }
+    yield put({ type: GET_POSITIONS.SUCCESS, payload: positions })
   } catch ({ message }) {
     yield put({ type: GET_POSITIONS.FAILURE, payload: { error: message } })
   }
@@ -57,7 +63,7 @@ function* deletePosition(action: PositionsActionsTypes) {
 
 function* updateTotals(action: PositionsActionsTypes) {
   try {
-    const { payload: { totals = {}, shares = {} } = {} } = action
+    const { payload: { totals = {}, shares = [] } = {} } = action
     const currentTotals = yield select(totalsSelector)
     const updatedTotals = { ...currentTotals, ...totals }
     const { totalPositionValue, totalPercentage } = calculateTotals(shares)
@@ -67,7 +73,7 @@ function* updateTotals(action: PositionsActionsTypes) {
     const newTotals = { ...updatedTotals, totalPositionValue, totalPercentage, availableCash }
 
     const { uid } = yield select(userSelector)
-    yield call(rsf.database.update, `users/${uid}/positions`, newShares)
+    yield call(rsf.database.update, `users/${uid}/shares`, newShares)
     yield call(rsf.database.update, `users/${uid}/totals`, newTotals)
     yield put({ type: UPDATE_TOTALS.SUCCESS, payload: { totals: newTotals, shares: newShares } })
   } catch ({ message }) {
