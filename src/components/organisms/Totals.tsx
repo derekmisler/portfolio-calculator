@@ -18,7 +18,7 @@ interface TotalsProps {
 interface FormValuesTypes {
   totalCash: number
 }
-export const Totals: SFC<TotalsProps> = memo(({ totals = { totalCash: 0 } }) => {
+export const Totals: SFC<TotalsProps> = memo(({ totals = { totalCash: 0, totalPercentage: 0, totalPositionValue: 0 } }) => {
   const dispatch = useDispatch()
   const initialValues: FormValuesTypes = { totalCash: totals.totalCash }
 
