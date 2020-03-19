@@ -1,5 +1,5 @@
 {
-  "name": "portfolio-calculator",
+  "name": "@derekmisler/portfolio-calculator",
   "private": true,
   "description": "Simple calculator for asset allocation.",
   "version": "0.1.0",
